@@ -3,8 +3,6 @@
 #include "hand.h"
 #include "tiles.h"
 
-//test
-
 int main()
 {
     std::cout << "Hello World!\n";
