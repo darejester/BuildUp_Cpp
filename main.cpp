@@ -2,25 +2,23 @@
 #include "domino.h"
 #include "hand.h"
 #include "tiles.h"
-
+#include "tournament.h"
 int main()
 {
-    std::cout << "Hello World!\n";
-    tiles* t = new tiles;
-    int temp = 0;
-    while (1)
+    tournament* tour = new tournament;
+    // game loop
+    while (1/*replace with something that I can equal to the number of rounds in tournament class*/)
     {
-        std::cout << "boneyard" << std::endl;
-        t->player_boneyard_out();
+        // game menu
+
+       /* std::cout << "boneyard" << std::endl;
+        t->m_player_boneyard_out();
         
-        hand* h = new hand(t->draw());
+        hand* h = new hand(t->player_draw());
         std::cout << "hand" << std::endl;
         h->hand_out();
 
-        std::cin >> temp;
-
-        
-        
+        std::cin >> temp; */
         
     }
 }
