@@ -48,19 +48,23 @@ void player::draw()
 void player::display_hand()
 {
 	std::cout << "HAND:" << std::endl;
+	std::cout << "0   1   2   3   4   5" << std::endl;
 	for (auto x : m_hand)
 	{
-		std::cout << x->display_l_pips() << "-" << x->display_r_pips() << std::endl;
+		std::cout << x->display_l_pips() << "-" << x->display_r_pips() << " ";
 	}
+	std::cout << "\n";
 }
 
 void player::display_boneyard()
 {
 	std::cout << "BONEYARD:" << std::endl;
+	std::cout << "TOP ";
 	for (auto x : m_boneyard)
 	{
-		std::cout << x->display_l_pips() << "-" << x->display_r_pips() << std::endl;
+		std::cout << x->display_l_pips() << "-" << x->display_r_pips() << " ";
 	}
+	std::cout << "BOTTOM" << "\n";
 }
 
 void player::place(std::vector<domino*>& a_stack)
