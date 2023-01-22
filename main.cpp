@@ -1,24 +1,18 @@
 #include "libraries.h"
 #include "domino.h"
 #include "hand.h"
-#include "tiles.h"
+#include "stack.h"
 #include "tournament.h"
 int main()
 {
-    tournament* tour = new tournament;
+    srand(time(NULL));
+    tournament game;
+    int ctr = 0;
     // game loop
-    while (1/*replace with something that I can equal to the number of rounds in tournament class*/)
+    while (ctr < 4/*replace with something that I can equal to the number of rounds in tournament class*/)
     {
-        // game menu
-
-       /* std::cout << "boneyard" << std::endl;
-        t->m_player_boneyard_out();
-        
-        hand* h = new hand(t->player_draw());
-        std::cout << "hand" << std::endl;
-        h->hand_out();
-
-        std::cin >> temp; */
+        game.start_tournament();
+        ctr++;
         
     }
 }
