@@ -29,8 +29,18 @@ void game_round::round_play(player& a_player, stack& a_stack)
 {
 	//a_player.display_boneyard();
 	a_player.draw();
-	a_player.display_hand();
-	a_player.place(a_stack.get_stack());
-	a_stack.display_stack();
-	a_player.display_boneyard();
+	while (!a_player.is_hand_empty())
+	{
+		std::cout << "=============================================================================" << std::endl;
+
+		a_stack.display_stack();
+		a_player.display_hand();
+		a_player.display_boneyard();
+		std::cout << "=============================================================================" << std::endl;
+		a_player.place(a_stack);
+	}
+	
+	
+	
+	
 }
