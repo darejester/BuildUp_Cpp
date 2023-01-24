@@ -1,6 +1,5 @@
 #include "libraries.h"
 #include "domino.h"
-#include "hand.h"
 #include "stack.h"
 #include "tournament.h"
 int main()
@@ -42,6 +41,8 @@ NOTES
 - fix turn order
 - fix display of stacks (display domino instead of the address)
 - fix initial filling of stacks
+- remove hand (done)
+- deck class to manage boneyard and no repetition of a domino
 
 */
 

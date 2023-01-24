@@ -1,5 +1,4 @@
 #pragma once
-#include "hand.h"
 #include "stack.h"
 #include <vector>
 

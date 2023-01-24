@@ -19,7 +19,7 @@ public:
 	//void update_stack(stack* x) { m_stack = x; }
 	
 	std::vector<domino*>& get_stack() { return m_stack; }
-	int* get_test() { return test; }
+	//int* get_test() { return test; }
 
 	void display_stack();
 
@@ -30,7 +30,7 @@ private:
 	//std::vector<domino*> m_player_boneyard;
 	// holds the 12 (6 per player) stack
 	std::vector<domino*> m_stack;
-	int* test;
+	//int* test;
 	
 
 };

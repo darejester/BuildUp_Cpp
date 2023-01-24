@@ -1,5 +1,4 @@
 #pragma once
-#include "hand.h"
 #include "player.h"
 
 class game_round
@@ -37,6 +36,7 @@ void game_round::round_play(player& a_player, stack& a_stack)
 		a_player.display_hand();
 		a_player.display_boneyard();
 		std::cout << "=============================================================================" << std::endl;
+		//replace .place(a_stack) with .place(a_stack.get_stack())
 		a_player.place(a_stack);
 	}
 	
