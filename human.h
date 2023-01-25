@@ -1,10 +1,10 @@
 #pragma once
 #include "player.h"
 
-class bot : public player
+class human : public player
 {
 public:
-	bot();
+	human();
 	std::vector<domino*>& get_hand() { return m_hand; }
 	std::vector<domino*>& get_boneyard() { return m_boneyard; }
 	void draw();
@@ -18,16 +18,16 @@ private:
 	std::vector<domino*> m_boneyard;
 };
 
-bot::bot()
+human::human()
 {
 	for (int i = 0; i < 28; i++)
 	{
-		m_boneyard.push_back(new domino('B'));
+		m_boneyard.push_back(new domino('W'));
 	}
-	std::cout << "bot object created" << std::endl;
+	std::cout << "human object created" << std::endl;
 }
 
-void bot::draw()
+void human::draw()
 {
 	for (int i = 0; i < 6; i++)
 	{
@@ -46,22 +46,22 @@ void bot::draw()
 
 }
 
-void bot::display_hand()
+void human::display_hand()
 {
-	std::cout << "BOT HAND:" << std::endl;
+	std::cout << "PLAYER HAND:" << std::endl;
 	for (auto x : m_hand)
 	{
 		x->display_domino();
-		std::cout << " ";
+		std::cout<< " ";
 	}
 	std::cout << "\n";
 	std::cout << "  0     1     2     3     4     5";
 	std::cout << "\n \n";
 }
 
-void bot::display_boneyard()
+void human::display_boneyard()
 {
-	std::cout << "BOT BONEYARD:" << std::endl;
+	std::cout << "PLAYER BONEYARD:" << std::endl;
 	std::cout << "TOP ";
 	for (auto x : m_boneyard)
 	{
@@ -72,7 +72,7 @@ void bot::display_boneyard()
 	std::cout << "\n \n";
 }
 
-void bot::place(stack& a_stack)
+void human::place(stack& a_stack)
 {
 
 	int loc1;
@@ -99,9 +99,9 @@ void bot::place(stack& a_stack)
 
 }
 
-void bot::fill_stack(std::vector<domino*>& a_stack)
+void human::fill_stack(std::vector<domino*>& a_stack)
 {
-	for (int i = 0; i < 6; i++)
+	for (int i = 6; i < 12; i++)
 	{
 		//m_hand.push_back(*m_boneyard.begin());
 		a_stack.insert(a_stack.begin() + i, *m_boneyard.begin());

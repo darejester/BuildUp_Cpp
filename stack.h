@@ -48,7 +48,7 @@ stack::stack()
 void stack::display_stack()
 {
 	std::cout << "STACK:" << std::endl;
-	std::cout << "0   1   2   3   4   5 \n";
+	std::cout << "  0     1     2     3     4     5\n";
 	
 	for (int i = 0; i < 12; i++)
 	{
@@ -58,15 +58,15 @@ void stack::display_stack()
 		}
 		/*std::cout << m_stack[i]->display_l_pips() << "-" << m_stack[i]->display_r_pips();*/
 		// THIS IS WORKING. FINISH MAKING BOT FIRST TO REMOVE NULL VALUES AND THEN USE THIS
-		//m_stack[i]->display_domino();
+		m_stack[i]->display_domino();
 		//debug: display addresses
-		std::cout << m_stack[i];
+		//std::cout << m_stack[i];
 		std::cout << " ";
 
 	}
 	std::cout << "\n";
-	std::cout << "6   7   8   9   10  11";
-	std::cout << "\n \n";
+	std::cout << "  6     7     8     9     10    11\n ";
+	std::cout << "\n";
 }
 
 //std::vector<domino*> stack::player_draw()
