@@ -1,6 +1,7 @@
 #pragma once
 #include "stack.h"
 #include <vector>
+#include "domino.h"
 
 class player
 {
