@@ -35,12 +35,12 @@ int main()
 /*
 NOTES
 - fix domino repetition
-- fix domino color
+- fix domino color(done)
 - fix serialization(fix, resume)
-- fix 2 player (human vs bot)
+- fix 2 player (human vs bot)(done)
 - fix turn order
-- fix display of stacks (display domino instead of the address)
-- fix initial filling of stacks
+- fix display of stacks (display domino instead of the address)(done)
+- fix initial filling of stacks(done)
 - remove hand (done)
 - deck class to manage boneyard and no repetition of a domino
 
