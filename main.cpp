@@ -34,15 +34,21 @@ int main()
 
 /*
 NOTES
-- fix domino repetition
+https://pages.ramapo.edu/~amruth/teaching/opl/projects/buildup/problem.html
+
+- fix domino repetition(done)
 - fix domino color(done)
-- fix serialization(fix, resume)
 - fix 2 player (human vs bot)(done)
-- fix turn order
+- fix turn order(done)
 - fix display of stacks (display domino instead of the address)(done)
 - fix initial filling of stacks(done)
 - remove hand (done)
-- deck class to manage boneyard and no repetition of a domino
+- deck class to manage boneyard(?)(didnt do)(done in another way)
+- fix serialization(fix, resume)
+- double tile placement mechanic
+- fix bot mechanics(AI)(how it plays)
+- fix ask for help
+- fix shuffle when deciding who is playing first
 
 */
 

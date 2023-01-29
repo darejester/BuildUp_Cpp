@@ -1,5 +1,7 @@
 #pragma once
 #include "player.h"
+#include <algorithm>
+#include <random>
 
 class human : public player
 {
@@ -13,6 +15,7 @@ public:
 	void display_boneyard();
 	void place(stack& a_stack);
 	void fill_stack(std::vector<domino*>& a_stack);
+	void player_play(stack& a_stack);
 private:
 	std::vector<domino*> m_hand;
 	std::vector<domino*> m_boneyard;
@@ -20,10 +23,26 @@ private:
 
 human::human()
 {
-	for (int i = 0; i < 28; i++)
+	//auto seed = std::random_device{};
+	//auto rng = std::default_random_engine{};
+
+	for (int l = 0; l <= 6; l++)
 	{
-		m_boneyard.push_back(new domino('W'));
+		for (int r = l; r <= 6; r++)
+		{
+			m_boneyard.push_back(new domino(l, r, 'B'));
+		}
+		
+		//m_boneyard.push_back(new domino('W'));
+		
 	}
+	
+	std::random_shuffle(std::begin(m_boneyard), std::end(m_boneyard));
+	/*for (auto i : m_boneyard)
+	{
+		i->display_domino();
+	}
+	std::cout << "\n";*/
 	std::cout << "human object created" << std::endl;
 }
 
@@ -79,6 +98,7 @@ void human::place(stack& a_stack)
 	int loc2;
 	std::vector<domino*>& temp = a_stack.get_stack();
 	std::vector<domino*>::iterator it;
+
 	//get locations
 	std::cout << "which domino do you want to place?" << std::endl;
 	std::cin >> loc1;
@@ -90,6 +110,11 @@ void human::place(stack& a_stack)
 	}
 	std::cout << "where to place it?" << std::endl;
 	std::cin >> loc2;
+	while (loc2 >= 12)
+	{
+		std::cout << "Invalid location. Enter again..." << std::endl;
+		std::cin >> loc2;
+	}
 
 	//place
 	it = m_hand.begin() + loc1;
@@ -109,6 +134,29 @@ void human::fill_stack(std::vector<domino*>& a_stack)
 		m_boneyard.erase(m_boneyard.begin());
 
 
+
+	}
+}
+
+void human::player_play(stack& a_stack)
+{
+	int action = -1;
+	//action input
+	std::cout << "ACTIONS:" << std::endl;
+	std::cout << "1-Place card, ...." << std::endl;
+	std::cin >> action;
+	while (action < 1)
+	{
+		std::cout << "INPUT INVALID. Try again...." << std::endl;
+		std::cin >> action;
+	}
+	//action decider
+	if (action == 1)
+	{
+		this->place(a_stack);
+	}
+	else /*if()*/
+	{
 
 	}
 }

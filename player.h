@@ -15,6 +15,7 @@ public:
 	virtual void display_boneyard() = 0;
 	virtual void place(stack& a_stack) = 0;
 	virtual void fill_stack(std::vector<domino*>& a_stack) = 0;
+	virtual void player_play(stack& a_stack) = 0;
 private:
 
 };

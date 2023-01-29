@@ -5,8 +5,10 @@ class game_round
 {
 public:
 	game_round();
-
-	void round_play( stack& a_stack, player* a_turn_order[2]);
+	//play round
+	void round_play(player* a_human, player* a_bot, stack& a_stack, player* a_turn_order[2]);
+	//pick first to play each round
+	void first_pick(player* a_human,player* a_bot,player* a_turn_order[2], std::vector<domino*>& a_stack);
 
 
 	~game_round() { std::cout << "destroyed round" << std::endl; }
@@ -26,43 +28,60 @@ game_round::game_round()
 	m_bot_score = 0;
 }
 
-void game_round::round_play(stack& a_stack, player* a_turn_order[2])
+void game_round::round_play(player* a_human, player* a_bot, stack& a_stack, player* a_turn_order[2])
 {
-	int action = -1;
+	
 	//a_turn_order[0]->display_boneyard();
+	// human and bot draw
 	a_turn_order[0]->draw();
 	a_turn_order[1]->draw();
-	while (!a_turn_order[0]->is_hand_empty())
+	for (int i = 0; i < 2; i++)
 	{
-		std::cout << "=============================================================================" << std::endl;
-		a_turn_order[1]->display_boneyard();
-		a_turn_order[1]->display_hand();
-		a_stack.display_stack();
-		a_turn_order[0]->display_hand();
-		a_turn_order[0]->display_boneyard();
-		std::cout << "=============================================================================" << std::endl;
-		//replace .place(a_stack) with .place(a_stack.get_stack())
-		std::cout << "ACTIONS:" << std::endl;
-		std::cout << "1-Place card, ...." << std::endl;
-		std::cin >> action;
-		while (action < 1)
+		while (!a_turn_order[i]->is_hand_empty())
 		{
-			std::cout << "INPUT INVALID. Try again...." << std::endl;
-			std::cin >> action;
-		}
-		//action decider
-		if (action == 1)
-		{
-			a_turn_order[0]->place(a_stack);
-		}
-		else
-		{
+			std::cout << "=============================================================================" << std::endl;
+			std::cout << "TURN: " << (a_turn_order[i]->get_hand())[0]->display_color() << std::endl;
+			std::cout << "=============================================================================" << std::endl;
+			a_bot->display_boneyard();
+			a_bot->display_hand();
+			a_stack.display_stack();
+			a_human->display_hand();
+			a_human->display_boneyard();
+			std::cout << "=============================================================================" << std::endl;
+			//replace .place(a_stack) with .place(a_stack.get_stack())
+
+			a_turn_order[i]->player_play(a_stack);
+
+			
 
 		}
-		
+	}
 	}
 	
-	
-	
-	
+
+
+void game_round::first_pick(player* a_human, player* a_bot, player* a_turn_order[2], std::vector<domino*>& a_stack)
+{
+	std::cout << "first_pick() called " << std::endl;
+	// 0-5 = bot's first 6, 6-11 = human's first 6
+	for (int i = 0; i < 6; i++)
+	{
+		if (a_stack[i]->total_pips() > a_stack[i + 6]->total_pips()) // if bot has higher total pips count
+		{
+			a_turn_order[0] = a_bot;
+			a_turn_order[1] = a_human;
+			return;
+		}
+		else if (a_stack[i]->total_pips() < a_stack[i + 6]->total_pips()) // if player has higher total pips count
+		{
+			a_turn_order[0] = a_human;
+			a_turn_order[1] = a_bot;
+			return;
+		}
+		else // if bot and player has equal total pips count
+		{
+			continue;
+		}
+	}
+
 }

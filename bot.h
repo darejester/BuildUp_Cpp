@@ -1,5 +1,7 @@
 #pragma once
 #include "player.h"
+#include <algorithm>
+#include <random>
 
 class bot : public player
 {
@@ -13,6 +15,7 @@ public:
 	void display_boneyard();
 	void place(stack& a_stack);
 	void fill_stack(std::vector<domino*>& a_stack);
+	void player_play(stack& a_stack);
 private:
 	std::vector<domino*> m_hand;
 	std::vector<domino*> m_boneyard;
@@ -20,10 +23,26 @@ private:
 
 bot::bot()
 {
-	for (int i = 0; i < 28; i++)
+	//auto seed = std::random_device{};
+	//auto rng = std::default_random_engine{ };
+
+	for (int l = 0; l <= 6; l++)
 	{
-		m_boneyard.push_back(new domino('B'));
+		for (int r = l; r <= 6; r++)
+		{
+			m_boneyard.push_back(new domino(l, r, 'W'));
+		}
+		
+		//m_boneyard.push_back(new domino('B'));
+
 	}
+
+	std::random_shuffle(std::begin(m_boneyard), std::end(m_boneyard));
+	/*for (auto i : m_boneyard)
+	{
+		i->display_domino();
+	}
+	std::cout << "\n";*/
 	std::cout << "bot object created" << std::endl;
 }
 
@@ -79,17 +98,20 @@ void bot::place(stack& a_stack)
 	int loc2;
 	std::vector<domino*>& temp = a_stack.get_stack();
 	std::vector<domino*>::iterator it;
-	//get locations
-	std::cout << "which domino do you want to place?" << std::endl;
-	std::cin >> loc1;
-	//input validation
-	while (loc1 >= m_hand.size())
-	{
-		std::cout << "There is no domino in that part of your hand. Enter again..." << std::endl;
-		std::cin >> loc1;
-	}
-	std::cout << "where to place it?" << std::endl;
-	std::cin >> loc2;
+	////get locations
+	//std::cout << "which domino do you want to place?" << std::endl;
+	//std::cin >> loc1;
+	////input validation
+	//while (loc1 >= m_hand.size())
+	//{
+	//	std::cout << "There is no domino in that part of your hand. Enter again..." << std::endl;
+	//	std::cin >> loc1;
+	//}
+	//std::cout << "where to place it?" << std::endl;
+	//std::cin >> loc2;
+
+	loc1 = rand() % m_hand.size();
+	loc2 = rand() % 12;
 
 	//place
 	it = m_hand.begin() + loc1;
@@ -111,4 +133,10 @@ void bot::fill_stack(std::vector<domino*>& a_stack)
 
 
 	}
+}
+
+void bot::player_play(stack& a_stack)
+{
+	std::cout << "bot playing" << std::endl;
+	this->place(a_stack);
 }

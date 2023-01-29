@@ -49,12 +49,16 @@ tournament::tournament()
 	m_scoreboard[1][1] = { 0 };
 	m_game_round_counter = 0;
 	m_round = NULL;
-	m_human = new human;
 	m_bot = new bot;
-	m_turn_order[0] = m_human;
-	m_turn_order[1] = m_bot;
-	m_turn_order[1]->fill_stack(m_stack.get_stack());
-	m_turn_order[0]->fill_stack(m_stack.get_stack());
+	m_bot->fill_stack(m_stack.get_stack());
+	m_human = new human;
+	m_human->fill_stack(m_stack.get_stack());
+	m_turn_order[0] = NULL;
+	m_turn_order[1] = NULL;
+	//m_turn_order[0] = m_human;
+	//m_turn_order[1] = m_bot;
+	//m_turn_order[1]->fill_stack(m_stack.get_stack());
+	//m_turn_order[0]->fill_stack(m_stack.get_stack());
 	
 }
 
@@ -63,10 +67,18 @@ void tournament::start_tournament()
 	// game loop
 	while (m_game_round_counter < 4/*replace with something that I can equal to the number of rounds in tournament class*/)
 	{
+		//incremenet round_counter
+		m_game_round_counter++;
 		//initialize new round
 		m_round = new game_round();
+		//first pick if first round
+		if (m_game_round_counter == 1)
+		{
+			m_round->first_pick(m_human,m_bot,m_turn_order, m_stack.get_stack());
+		}
+		
 		//play
-		m_round->round_play( m_stack, m_turn_order);
+		m_round->round_play( m_human,m_bot,m_stack, m_turn_order);
 		//score
 
 		//continue?
