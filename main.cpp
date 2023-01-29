@@ -49,6 +49,8 @@ https://pages.ramapo.edu/~amruth/teaching/opl/projects/buildup/problem.html
 - fix bot mechanics(AI)(how it plays)
 - fix ask for help
 - fix shuffle when deciding who is playing first
+- scoring
+- play again?
 
 */
 
