@@ -9,15 +9,18 @@ public:
 	// returns the total number of pips
 	int total_pips();
 	// returns the m_l_pips
-	int l_pips_out() { return m_l_pips; }
+	int display_l_pips() { return m_l_pips; }
 	// returns the m_r_pips
-	int r_pips_out() { return m_r_pips; }
+	int display_r_pips() { return m_r_pips; }
+
+	void display_domino() { std::cout << m_color << m_l_pips << "-" << m_r_pips;}
 
 	~domino() {};
 
 private:
 	int m_l_pips;
 	int m_r_pips;
+	char m_color;
 	
 };
 
