@@ -117,7 +117,7 @@ void bot::place(stack& a_stack)
 	{
 		//get locations
 		loc1 = rand() % m_hand.size();
-		loc2 = rand() % 12;
+		loc2 = rand() % temp.size();
 
 		//check if placement of domino is legal
 		if ((m_hand[loc1]->display_l_pips() != m_hand[loc1]->display_r_pips()) && (m_hand[loc1]->total_pips() >= temp[loc2]->total_pips())) //condition 1

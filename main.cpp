@@ -44,11 +44,14 @@ https://pages.ramapo.edu/~amruth/teaching/opl/projects/buildup/problem.html
 - fix initial filling of stacks(done)
 - remove hand (done)
 - deck class to manage boneyard(?)(didnt do)(done in another way)
-- fix serialization(fix, resume)
+- fix shuffle when deciding who is playing first(done)
 - double tile placement mechanic(done)
+
+- scoring
+- fix serialization(fix, resume)
 - fix bot mechanics(AI)(how it plays)
 - fix ask for help
-- fix shuffle when deciding who is playing first
+
 
 */
 

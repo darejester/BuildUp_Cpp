@@ -48,6 +48,7 @@ tournament::tournament()
 {
 	m_scoreboard[1][1] = { 0 };
 	m_game_round_counter = 0;
+	m_stack.get_stack().clear();
 	m_round = NULL;
 	m_bot = new bot;
 	m_bot->fill_stack(m_stack.get_stack());

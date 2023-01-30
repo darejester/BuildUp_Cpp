@@ -1,5 +1,7 @@
 #pragma once
 #include "player.h"
+#include <algorithm>
+#include <random>
 
 class game_round
 {
@@ -63,25 +65,26 @@ void game_round::round_play(player* a_human, player* a_bot, stack& a_stack, play
 void game_round::first_pick(player* a_human, player* a_bot, player* a_turn_order[2], std::vector<domino*>& a_stack)
 {
 	std::cout << "first_pick() called " << std::endl;
-	// 0-5 = bot's first 6, 6-11 = human's first 6
-	for (int i = 0; i < 6; i++)
+
+
+	while (a_human->get_boneyard()[0]->total_pips() == a_bot->get_boneyard()[0]->total_pips())
 	{
-		if (a_stack[i]->total_pips() > a_stack[i + 6]->total_pips()) // if bot has higher total pips count
-		{
-			a_turn_order[0] = a_bot;
-			a_turn_order[1] = a_human;
-			return;
-		}
-		else if (a_stack[i]->total_pips() < a_stack[i + 6]->total_pips()) // if player has higher total pips count
-		{
-			a_turn_order[0] = a_human;
-			a_turn_order[1] = a_bot;
-			return;
-		}
-		else // if bot and player has equal total pips count
-		{
-			continue;
-		}
+		std::random_shuffle(std::begin(a_human->get_boneyard()), std::end(a_human->get_boneyard()));
+		std::random_shuffle(std::begin(a_bot->get_boneyard()), std::end(a_bot->get_boneyard()));
+		std::cout << "shuffle" << std::endl;
+	}
+
+	if (a_human->get_boneyard()[0]->total_pips() > a_bot->get_boneyard()[0]->total_pips()) // if human has higher total pips count
+	{
+		a_turn_order[1] = a_bot;
+		a_turn_order[0] = a_human;
+		return;
+	}
+	else if (a_human->get_boneyard()[0]->total_pips() < a_bot->get_boneyard()[0]->total_pips()) // if bot has higher total pips count
+	{
+		a_turn_order[1] = a_human;
+		a_turn_order[0] = a_bot;
+		return;
 	}
 
 }
