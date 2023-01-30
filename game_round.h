@@ -37,7 +37,7 @@ void game_round::round_play(player* a_human, player* a_bot, stack& a_stack, play
 	a_turn_order[1]->draw();
 	for (int i = 0; i < 2; i++)
 	{
-		while (!a_turn_order[i]->is_hand_empty())
+		while (a_turn_order[i]->check_playable(a_turn_order[i]->get_hand(),a_stack.get_stack()))
 		{
 			std::cout << "=============================================================================" << std::endl;
 			std::cout << "TURN: " << (a_turn_order[i]->get_hand())[0]->display_color() << std::endl;

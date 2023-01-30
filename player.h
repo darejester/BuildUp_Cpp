@@ -16,6 +16,7 @@ public:
 	virtual void place(stack& a_stack) = 0;
 	virtual void fill_stack(std::vector<domino*>& a_stack) = 0;
 	virtual void player_play(stack& a_stack) = 0;
+	virtual bool check_playable( std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_temp) = 0;
 private:
 
 };

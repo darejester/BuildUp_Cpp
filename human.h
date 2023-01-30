@@ -16,6 +16,7 @@ public:
 	void place(stack& a_stack);
 	void fill_stack(std::vector<domino*>& a_stack);
 	void player_play(stack& a_stack);
+	bool check_playable( std::vector<domino*>& a_hand,  std::vector<domino*>& a_stack_temp);
 private:
 	std::vector<domino*> m_hand;
 	std::vector<domino*> m_boneyard;
@@ -98,29 +99,65 @@ void human::place(stack& a_stack)
 	int loc2;
 	std::vector<domino*>& temp = a_stack.get_stack();
 	std::vector<domino*>::iterator it;
-
-	//get locations
-	std::cout << "which domino do you want to place?" << std::endl;
-	std::cin >> loc1;
-	//input validation
-	while (loc1 >= m_hand.size())
+	while (this->check_playable(m_hand, temp))
 	{
-		std::cout << "There is no domino in that part of your hand. Enter again..." << std::endl;
+		//get locations
+		std::cout << "which domino do you want to place?" << std::endl;
 		std::cin >> loc1;
-	}
-	std::cout << "where to place it?" << std::endl;
-	std::cin >> loc2;
-	while (loc2 >= 12)
-	{
-		std::cout << "Invalid location. Enter again..." << std::endl;
+		//input validation
+		while (loc1 >= m_hand.size())
+		{
+			std::cout << "There is no domino in that part of your hand. Enter again..." << std::endl;
+			std::cin >> loc1;
+		}
+		std::cout << "where to place it?" << std::endl;
 		std::cin >> loc2;
-	}
+		while (loc2 >= 12)
+		{
+			std::cout << "Invalid location. Enter again..." << std::endl;
+			std::cin >> loc2;
+		}
 
-	//place
-	it = m_hand.begin() + loc1;
-	temp[loc2] = m_hand[loc1];
-	m_hand.erase(it);
-	//display_hand();
+		//check if placement of domino is legal
+		if ((m_hand[loc1]->display_l_pips() != m_hand[loc1]->display_r_pips()) && (m_hand[loc1]->total_pips() >= temp[loc2]->total_pips())) //condition 1
+		{
+			//place
+			temp[loc2] = m_hand[loc1];
+			it = m_hand.begin() + loc1;
+			m_hand.erase(it);
+			//display_hand();
+			break;
+			
+		}
+		else if ((m_hand[loc1]->display_l_pips() == m_hand[loc1]->display_r_pips()) && (temp[loc2]->display_l_pips() != temp[loc2]->display_r_pips())) //condition 2
+		{
+			//place
+			temp[loc2] = m_hand[loc1];
+			it = m_hand.begin() + loc1;
+			m_hand.erase(it);
+			//display_hand();
+			break;
+		}
+		else if ((m_hand[loc1]->display_l_pips() == m_hand[loc1]->display_r_pips()) && (temp[loc2]->display_l_pips() == temp[loc2]->display_r_pips()) && (m_hand[loc1]->total_pips() > temp[loc2]->total_pips())) //condition 3
+		{
+			//place
+			temp[loc2] = m_hand[loc1];
+			it = m_hand.begin() + loc1;
+			m_hand.erase(it);
+			//display_hand();
+			break;
+		}
+		else
+		{
+			std::cout << "Tile placement is illegal." << std::endl;
+			std::cout << "A non-double tile may be placed on any tile as long as the total number of pips on it is greater than or equal to that of the tile on which it is placed." << std::endl;
+			std::cout << "A double tile (e.g., 0-0, 1-1, 2-2) may be placed on any non-double tile, even if the non-double tile has more pips." << std::endl;
+			std::cout << "A double tile may be placed on another double tile only if it has more total pips than the tile on which it is placed." << std::endl;
+			continue;
+		}
+	}
+	
+	
 
 }
 
@@ -159,4 +196,35 @@ void human::player_play(stack& a_stack)
 	{
 
 	}
+}
+
+bool human::check_playable(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_temp)
+{
+	// check if there is/are any plable domino(s)
+	for (auto t : a_stack_temp)
+	{
+		for (auto h : a_hand)
+		{
+			//check if placement of domino is legal
+			if ((h->display_l_pips() != h->display_r_pips()) && (h->total_pips() >= t->total_pips())) //condition 1
+			{
+				return 1;
+				
+
+			}
+			else if ((h->display_l_pips() == h->display_r_pips()) && (t->display_l_pips() != t->display_r_pips())) //condition 2
+			{
+				
+				return 1;
+			}
+			else if ((h->display_l_pips() == h->display_r_pips()) && (t->display_l_pips() == t->display_r_pips()) && (h->total_pips() > t->total_pips())) //condition 3
+			{
+				
+				return 1;
+			}
+		}
+	}
+	//if no more playable domino(s)
+	std::cout << "No more playable domino(s)" << std::endl;
+	return 0;
 }
