@@ -48,7 +48,7 @@ stack::stack()
 void stack::display_stack()
 {
 	std::cout << "STACK:" << std::endl;
-	std::cout << "  0     1     2     3     4     5\n";
+	std::cout << " 0   1   2   3   4   5\n";
 	
 	for (int i = 0; i < 12; i++)
 	{
@@ -65,7 +65,7 @@ void stack::display_stack()
 
 	}
 	std::cout << "\n";
-	std::cout << "  6     7     8     9     10    11\n ";
+	std::cout << " 6   7   8   9   10  11\n ";
 	std::cout << "\n";
 }
 

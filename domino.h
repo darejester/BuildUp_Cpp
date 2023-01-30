@@ -15,7 +15,7 @@ public:
 
 	char display_color() { return m_color; }
 
-	void display_domino() { std::cout << m_color << "-" << m_l_pips << "-" << m_r_pips; }
+	void display_domino() { std::cout << m_color  << m_l_pips  << m_r_pips; }
 
 	~domino() {};
 
