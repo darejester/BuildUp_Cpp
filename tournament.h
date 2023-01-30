@@ -38,7 +38,7 @@ private:
 	//round holder
 	game_round* m_round;
 	//score board holder(for whole tournament)
-	int m_scoreboard[2][4];
+	int m_scoreboard[2];
 	// holds number of rounds
 	int m_game_round_counter;
 };
@@ -46,7 +46,7 @@ private:
 
 tournament::tournament()
 {
-	m_scoreboard[1][1] = { 0 };
+	m_scoreboard[1] = { 0 };
 	m_game_round_counter = 0;
 	m_stack.get_stack().clear();
 	m_round = NULL;
@@ -84,8 +84,16 @@ void tournament::start_tournament()
 		//play
 		m_round->round_play( m_human,m_bot,m_stack, m_turn_order);
 
+		//display
+		m_bot->display_boneyard();
+		m_bot->display_hand();
+		m_stack.display_stack();
+		m_human->display_hand();
+		m_human->display_boneyard();
+
 		//score
-		m_round->score(m_stack,m_turn_order,m_scoreboard);
+		m_round->score(m_stack,m_turn_order,m_scoreboard,m_game_round_counter);
+
 
 		//continue?
 		if (m_game_round_counter < 3)

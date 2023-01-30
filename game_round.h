@@ -14,7 +14,7 @@ public:
 	//pick first to play each round
 	void first_pick(player* a_human,player* a_bot,player* a_turn_order[2], std::vector<domino*>& a_stack);
 	//score
-	void score(stack& a_stack,player* a_turn_order[2],int (&a_scoreboard)[2][4]);
+	void score(stack& a_stack,player* a_turn_order[2],int (&a_scoreboard)[2], int a_game_round_counter);
 
 
 	~game_round() { std::cout << "destroyed round" << std::endl; }
@@ -62,7 +62,7 @@ void game_round::round_play(player* a_human, player* a_bot, stack& a_stack, play
 
 		}
 	}
-	}
+}
 	
 
 
@@ -93,7 +93,7 @@ void game_round::first_pick(player* a_human, player* a_bot, player* a_turn_order
 
 }
 
-void game_round::score(stack& a_stack, player* a_turn_order[2], int(&a_scoreboard)[2][4])
+void game_round::score(stack& a_stack, player* a_turn_order[2], int(&a_scoreboard)[2], int a_game_round_counter)
 {
 	int bot_total = 0;
 	int human_total = 0;
@@ -118,8 +118,8 @@ void game_round::score(stack& a_stack, player* a_turn_order[2], int(&a_scoreboar
 			}
 		}
 	}
-	std::cout << "human: " << human_total << std::endl;
-	std::cout << "Bot: " << bot_total << std::endl;
+	//std::cout << "human: " << human_total << std::endl;
+	//std::cout << "Bot: " << bot_total << std::endl;
 
 	for (auto x : stack_temp)
 	{
@@ -132,7 +132,14 @@ void game_round::score(stack& a_stack, player* a_turn_order[2], int(&a_scoreboar
 			bot_total += x->total_pips();
 		}
 	}
-	std::cout << "human: " << human_total << std::endl;
-	std::cout << "Bot: " << bot_total << std::endl;
+	//std::cout << "human: " << human_total << std::endl;
+	//std::cout << "Bot: " << bot_total << std::endl;
+
+	a_scoreboard[0] += human_total;
+	a_scoreboard[1] += bot_total;
+	//B = player, W = bot
+	std::cout << "SCOREBOARD: " << std::endl;
+	std::cout << "B : " << a_scoreboard[0] << std::endl;
+	std::cout << "W : " << a_scoreboard[1] << std::endl;
 
 }
