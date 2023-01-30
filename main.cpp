@@ -46,8 +46,8 @@ https://pages.ramapo.edu/~amruth/teaching/opl/projects/buildup/problem.html
 - deck class to manage boneyard(?)(didnt do)(done in another way)
 - fix shuffle when deciding who is playing first(done)
 - double tile placement mechanic(done)
+- scoring(done)
 
-- scoring
 - fix serialization(fix, resume)
 - fix bot mechanics(AI)(how it plays)
 - fix ask for help

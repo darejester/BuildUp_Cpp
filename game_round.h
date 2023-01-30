@@ -2,6 +2,8 @@
 #include "player.h"
 #include <algorithm>
 #include <random>
+#include <vector>
+#include <numeric>
 
 class game_round
 {
@@ -11,6 +13,8 @@ public:
 	void round_play(player* a_human, player* a_bot, stack& a_stack, player* a_turn_order[2]);
 	//pick first to play each round
 	void first_pick(player* a_human,player* a_bot,player* a_turn_order[2], std::vector<domino*>& a_stack);
+	//score
+	void score(stack& a_stack,player* a_turn_order[2],int (&a_scoreboard)[2][4]);
 
 
 	~game_round() { std::cout << "destroyed round" << std::endl; }
@@ -86,5 +90,49 @@ void game_round::first_pick(player* a_human, player* a_bot, player* a_turn_order
 		a_turn_order[0] = a_bot;
 		return;
 	}
+
+}
+
+void game_round::score(stack& a_stack, player* a_turn_order[2], int(&a_scoreboard)[2][4])
+{
+	int bot_total = 0;
+	int human_total = 0;
+
+	std::vector<domino*>& stack_temp = a_stack.get_stack();
+	std::vector<domino*>::iterator it;
+
+	std::cout << "score:" << std::endl;
+	//it = stack_temp.begin();
+
+	for (int p = 0; p < 2; p++)
+	{
+		for (int h = 0; h < a_turn_order[p]->get_hand().size(); h++)
+		{
+			if (a_turn_order[p]->get_hand()[h]->display_color() == 'B')
+			{
+				human_total -= a_turn_order[p]->get_hand()[h]->total_pips();
+			}
+			else if (a_turn_order[p]->get_hand()[h]->display_color() == 'W')
+			{
+				bot_total -= a_turn_order[p]->get_hand()[h]->total_pips();
+			}
+		}
+	}
+	std::cout << "human: " << human_total << std::endl;
+	std::cout << "Bot: " << bot_total << std::endl;
+
+	for (auto x : stack_temp)
+	{
+		if (x->display_color() == 'B')
+		{
+			human_total += x->total_pips();
+		}
+		else if (x->display_color() == 'W')
+		{
+			bot_total += x->total_pips();
+		}
+	}
+	std::cout << "human: " << human_total << std::endl;
+	std::cout << "Bot: " << bot_total << std::endl;
 
 }

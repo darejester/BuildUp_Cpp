@@ -65,9 +65,12 @@ tournament::tournament()
 
 void tournament::start_tournament()
 {
+	int continue_game = 1;
 	// game loop
-	while (m_game_round_counter < 4/*replace with something that I can equal to the number of rounds in tournament class*/)
+	while ((m_game_round_counter < 4) && continue_game == 1/*replace with something that I can equal to the number of rounds in tournament class*/)
 	{
+		continue_game = 0;
+
 		//incremenet round_counter
 		m_game_round_counter++;
 		//initialize new round
@@ -80,10 +83,18 @@ void tournament::start_tournament()
 		
 		//play
 		m_round->round_play( m_human,m_bot,m_stack, m_turn_order);
+
 		//score
+		m_round->score(m_stack,m_turn_order,m_scoreboard);
 
 		//continue?
-
+		if (m_game_round_counter < 3)
+		{
+			std::cout << "Do you want to continue onto the next round?" << std::endl;
+			std::cout << "1 = continue, 0 = exit" << std::endl;
+			std::cin >> continue_game;
+		}
+		
 		m_game_round_counter++;
 	}
 }
