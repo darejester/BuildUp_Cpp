@@ -47,10 +47,11 @@ https://pages.ramapo.edu/~amruth/teaching/opl/projects/buildup/problem.html
 - fix shuffle when deciding who is playing first(done)
 - double tile placement mechanic(done)
 - scoring(done)
+- fix bot mechanics(AI)(how it plays)(done)
+- fix ask for help(done)
 
 - fix serialization(fix, resume)
-- fix bot mechanics(AI)(how it plays)
-- fix ask for help
+- fix winner declaration
 
 
 */
