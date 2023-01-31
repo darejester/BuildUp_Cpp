@@ -17,6 +17,7 @@ public:
 	void fill_stack(std::vector<domino*>& a_stack);
 	void player_play(stack& a_stack);
 	bool check_playable( std::vector<domino*>& a_hand,  std::vector<domino*>& a_stack_temp);
+	void get_help() {}
 private:
 	std::vector<domino*> m_hand;
 	std::vector<domino*> m_boneyard;

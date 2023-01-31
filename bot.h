@@ -17,6 +17,8 @@ public:
 	void fill_stack(std::vector<domino*>& a_stack);
 	void player_play(stack& a_stack);
 	bool check_playable( std::vector<domino*>& a_hand,  std::vector<domino*>& a_stack_temp);
+	void strategy(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_temp, int& a_loc1, int& a_loc2);
+	bool check_legality(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_temp, int& a_loc1, int& a_loc2);
 private:
 	std::vector<domino*> m_hand;
 	std::vector<domino*> m_boneyard;
@@ -116,11 +118,12 @@ void bot::place(stack& a_stack)
 	while (this->check_playable(m_hand,temp))
 	{
 		//get locations
-		loc1 = rand() % m_hand.size();
-		loc2 = rand() % temp.size();
+		//loc1 = rand() % m_hand.size();
+		//loc2 = rand() % temp.size();
+		this->strategy(m_hand, temp, loc1, loc2);
 
 		//check if placement of domino is legal
-		if ((m_hand[loc1]->display_l_pips() != m_hand[loc1]->display_r_pips()) && (m_hand[loc1]->total_pips() >= temp[loc2]->total_pips())) //condition 1
+		if (this->check_legality(m_hand,temp,loc1,loc2) )//condition 1
 		{
 			//place
 			temp[loc2] = m_hand[loc1];
@@ -128,40 +131,6 @@ void bot::place(stack& a_stack)
 			m_hand.erase(it);
 			//display_hand();
 			break;
-
-		}
-		else if ((m_hand[loc1]->display_l_pips() == m_hand[loc1]->display_r_pips()) && (temp[loc2]->display_l_pips() != temp[loc2]->display_r_pips())) //condition 2
-		{
-			//place
-			temp[loc2] = m_hand[loc1];
-			it = m_hand.begin() + loc1;
-			m_hand.erase(it);
-			//display_hand();
-			break;
-		}
-		else if ((m_hand[loc1]->display_l_pips() == m_hand[loc1]->display_r_pips()) && (temp[loc2]->display_l_pips() == temp[loc2]->display_r_pips()) && (m_hand[loc1]->total_pips() > temp[loc2]->total_pips())) //condition 3
-		{
-			//place
-			temp[loc2] = m_hand[loc1];
-			it = m_hand.begin() + loc1;
-			m_hand.erase(it);
-			//display_hand();
-			break;
-		}
-		else
-		{
-			std::cout << "Tile placement is illegal." << std::endl;
-			std::cout << "A non-double tile may be placed on any tile as long as the total number of pips on it is greater than or equal to that of the tile on which it is placed." << std::endl;
-			std::cout << "A double tile (e.g., 0-0, 1-1, 2-2) may be placed on any non-double tile, even if the non-double tile has more pips." << std::endl;
-			std::cout << "A double tile may be placed on another double tile only if it has more total pips than the tile on which it is placed." << std::endl;
-			continue;
-			/*for (auto x : temp)
-			{
-				for (auto x : m_hand)
-				{
-					
-				}
-			}*/
 		}
 	}
 
@@ -216,4 +185,92 @@ bool bot::check_playable(std::vector<domino*>& a_hand, std::vector<domino*>& a_s
 	//if no more playable domino(s)
 	std::cout << "No more playable domino(s)" << std::endl;
 	return 0;
+}
+
+void bot::strategy(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_temp, int& a_loc1, int& a_loc2)
+{
+	for (int h = 0; h < a_hand.size(); h ++)
+	{
+		for (int s = 0; s < a_stack_temp.size(); s++)
+		{
+			//check if it's a strategic move
+			if ((a_stack_temp[s]->display_color() != a_hand[h]->display_color()) && (a_stack_temp[s]->total_pips() < a_hand[h]->total_pips()))//place higher tile on enemy tile
+			{
+				if (this->check_legality(m_hand, a_stack_temp, h, s))
+				{
+					std::cout << "Cover opponent's high tile with own higher tile" << std::endl;
+					std::cout << h << " in hand to " << s << " of stack" << std::endl;
+					a_loc1 = h;
+					a_loc2 = s;
+					return;
+
+				}
+			}
+			else if ((a_stack_temp[s]->display_color() != a_hand[h]->display_color()) && (a_hand[h]->display_l_pips() == a_hand[h]->display_r_pips()) && (a_hand[h]->total_pips() < a_stack_temp[s]->total_pips()))//place low-value double on high value tile of enemy
+			{
+				if (this->check_legality(m_hand, a_stack_temp, h, s))
+				{
+					std::cout << "Cover opponent's high tile with own lower double tile" << std::endl;
+					std::cout << h << " in hand to " << s << " of stack" << std::endl;
+					a_loc1 = h;
+					a_loc2 = s;
+					return;
+
+				}
+			}
+			else if ((a_stack_temp[s]->display_color() == a_hand[h]->display_color()))//place playable tile on own tile
+			{
+				if (this->check_legality(m_hand, a_stack_temp, h, s))
+				{
+					std::cout << "Cover own tile to avoid having points deducted" << std::endl;
+					std::cout << h << " in hand to " << s << " of stack" << std::endl;
+					a_loc1 = h;
+					a_loc2 = s;
+					return;
+
+				}
+			}
+			else
+			{
+				if (this->check_legality(m_hand, a_stack_temp, h, s))
+				{
+					std::cout << "No good moves. Just do a legal move" << std::endl;
+					std::cout << h << " in hand to " << s << " of stack" << std::endl;
+					a_loc1 = h;
+					a_loc2 = s;
+					return;
+
+				}
+			}
+				
+		}
+	}
+	// default to play anything legal
+}
+
+bool bot::check_legality(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_temp, int& a_loc1, int& a_loc2)
+{
+	//check if placement of domino is legal
+	if ((a_hand[a_loc1]->display_l_pips() != a_hand[a_loc1]->display_r_pips()) && (a_hand[a_loc1]->total_pips() >= a_stack_temp[a_loc2]->total_pips())) //condition 1
+	{
+		//place
+		return 1;
+
+	}
+	else if ((a_hand[a_loc1]->display_l_pips() == a_hand[a_loc1]->display_r_pips()) && (a_stack_temp[a_loc2]->display_l_pips() != a_stack_temp[a_loc2]->display_r_pips())) //condition 2
+	{
+		return 1;
+	}
+	else if ((a_hand[a_loc1]->display_l_pips() == a_hand[a_loc1]->display_r_pips()) && (a_stack_temp[a_loc2]->display_l_pips() == a_stack_temp[a_loc2]->display_r_pips()) && (a_hand[a_loc1]->total_pips() > a_stack_temp[a_loc2]->total_pips())) //condition 3
+	{
+		return 1;
+	}
+	else
+	{
+		std::cout << "Tile placement is illegal." << std::endl;
+		std::cout << "A non-double tile may be placed on any tile as long as the total number of pips on it is greater than or equal to that of the tile on which it is placed." << std::endl;
+		std::cout << "A double tile (e.g., 0-0, 1-1, 2-2) may be placed on any non-double tile, even if the non-double tile has more pips." << std::endl;
+		std::cout << "A double tile may be placed on another double tile only if it has more total pips than the tile on which it is placed." << std::endl;
+		return 0;
+	}
 }
