@@ -15,8 +15,10 @@ public:
 	virtual void display_boneyard() = 0;
 	virtual void place(stack& a_stack) = 0;
 	virtual void fill_stack(std::vector<domino*>& a_stack) = 0;
-	virtual void player_play(stack& a_stack) = 0;
+	virtual void player_play(stack& a_stack, player* a_bot) = 0;
+	virtual void strategy(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_temp, int& a_loc1, int& a_loc2) = 0;
 	virtual bool check_playable( std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_temp) = 0;
+	virtual bool check_legality(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_temp, int& a_loc1, int& a_loc2) = 0;
 private:
 
 };

@@ -56,7 +56,7 @@ void game_round::round_play(player* a_human, player* a_bot, stack& a_stack, play
 			std::cout << "=============================================================================" << std::endl;
 			//replace .place(a_stack) with .place(a_stack.get_stack())
 
-			a_turn_order[i]->player_play(a_stack);
+			a_turn_order[i]->player_play(a_stack,a_bot);
 
 			
 

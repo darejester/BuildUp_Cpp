@@ -15,9 +15,11 @@ public:
 	void display_boneyard();
 	void place(stack& a_stack);
 	void fill_stack(std::vector<domino*>& a_stack);
-	void player_play(stack& a_stack);
+	void player_play(stack& a_stack, player* a_bot);
 	bool check_playable( std::vector<domino*>& a_hand,  std::vector<domino*>& a_stack_temp);
-	void get_help() {}
+	void get_help(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_temp, int& a_loc1, int& a_loc2, player* a_bot);
+	bool check_legality(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_temp, int& a_loc1, int& a_loc2);
+	void strategy(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_temp, int& a_loc1, int& a_loc2) {}
 private:
 	std::vector<domino*> m_hand;
 	std::vector<domino*> m_boneyard;
@@ -120,7 +122,7 @@ void human::place(stack& a_stack)
 		}
 
 		//check if placement of domino is legal
-		if ((m_hand[loc1]->display_l_pips() != m_hand[loc1]->display_r_pips()) && (m_hand[loc1]->total_pips() >= temp[loc2]->total_pips())) //condition 1
+		if (this->check_legality(m_hand, temp, loc1, loc2))//condition 1
 		{
 			//place
 			temp[loc2] = m_hand[loc1];
@@ -128,33 +130,6 @@ void human::place(stack& a_stack)
 			m_hand.erase(it);
 			//display_hand();
 			break;
-			
-		}
-		else if ((m_hand[loc1]->display_l_pips() == m_hand[loc1]->display_r_pips()) && (temp[loc2]->display_l_pips() != temp[loc2]->display_r_pips())) //condition 2
-		{
-			//place
-			temp[loc2] = m_hand[loc1];
-			it = m_hand.begin() + loc1;
-			m_hand.erase(it);
-			//display_hand();
-			break;
-		}
-		else if ((m_hand[loc1]->display_l_pips() == m_hand[loc1]->display_r_pips()) && (temp[loc2]->display_l_pips() == temp[loc2]->display_r_pips()) && (m_hand[loc1]->total_pips() > temp[loc2]->total_pips())) //condition 3
-		{
-			//place
-			temp[loc2] = m_hand[loc1];
-			it = m_hand.begin() + loc1;
-			m_hand.erase(it);
-			//display_hand();
-			break;
-		}
-		else
-		{
-			std::cout << "Tile placement is illegal." << std::endl;
-			std::cout << "A non-double tile may be placed on any tile as long as the total number of pips on it is greater than or equal to that of the tile on which it is placed." << std::endl;
-			std::cout << "A double tile (e.g., 0-0, 1-1, 2-2) may be placed on any non-double tile, even if the non-double tile has more pips." << std::endl;
-			std::cout << "A double tile may be placed on another double tile only if it has more total pips than the tile on which it is placed." << std::endl;
-			continue;
 		}
 	}
 	
@@ -176,12 +151,14 @@ void human::fill_stack(std::vector<domino*>& a_stack)
 	}
 }
 
-void human::player_play(stack& a_stack)
+void human::player_play(stack& a_stack, player* a_bot)
 {
+	int loc1 = 0;
+	int loc2 = 0;
 	int action = -1;
 	//action input
 	std::cout << "ACTIONS:" << std::endl;
-	std::cout << "1-Place card, ...." << std::endl;
+	std::cout << "1-Place card, 2-Ask Bot for Help,...." << std::endl;
 	std::cin >> action;
 	while (action < 1)
 	{
@@ -193,9 +170,9 @@ void human::player_play(stack& a_stack)
 	{
 		this->place(a_stack);
 	}
-	else /*if()*/
+	else if(action == 2)
 	{
-
+		this->get_help(m_hand, a_stack.get_stack(), loc1, loc2, a_bot);
 	}
 }
 
@@ -228,4 +205,54 @@ bool human::check_playable(std::vector<domino*>& a_hand, std::vector<domino*>& a
 	//if no more playable domino(s)
 	std::cout << "No more playable domino(s)" << std::endl;
 	return 0;
+}
+
+void human::get_help(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_temp, int& a_loc1, int& a_loc2, player* a_bot)
+{
+	int ans = -1;
+	std::vector<domino*>::iterator it;
+
+	a_bot->strategy(a_hand, a_stack_temp, a_loc1, a_loc2);
+
+	std::cout << "Do you want to play this move?" << std::endl;
+	std::cout << "1= yes, 0 = no" << std::endl;
+	std::cin >> ans;
+	if (ans == 1)
+	{
+		//place
+		a_stack_temp[a_loc2] = m_hand[a_loc1];
+		it = m_hand.begin() + a_loc1;
+		m_hand.erase(it);
+	}
+	else
+	{
+		return;
+	}
+}
+
+bool human::check_legality(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_temp, int& a_loc1, int& a_loc2)
+{
+	//check if placement of domino is legal
+	if ((a_hand[a_loc1]->display_l_pips() != a_hand[a_loc1]->display_r_pips()) && (a_hand[a_loc1]->total_pips() >= a_stack_temp[a_loc2]->total_pips())) //condition 1
+	{
+		//place
+		return 1;
+
+	}
+	else if ((a_hand[a_loc1]->display_l_pips() == a_hand[a_loc1]->display_r_pips()) && (a_stack_temp[a_loc2]->display_l_pips() != a_stack_temp[a_loc2]->display_r_pips())) //condition 2
+	{
+		return 1;
+	}
+	else if ((a_hand[a_loc1]->display_l_pips() == a_hand[a_loc1]->display_r_pips()) && (a_stack_temp[a_loc2]->display_l_pips() == a_stack_temp[a_loc2]->display_r_pips()) && (a_hand[a_loc1]->total_pips() > a_stack_temp[a_loc2]->total_pips())) //condition 3
+	{
+		return 1;
+	}
+	else
+	{
+		std::cout << "Tile placement is illegal." << std::endl;
+		std::cout << "A non-double tile may be placed on any tile as long as the total number of pips on it is greater than or equal to that of the tile on which it is placed." << std::endl;
+		std::cout << "A double tile (e.g., 0-0, 1-1, 2-2) may be placed on any non-double tile, even if the non-double tile has more pips." << std::endl;
+		std::cout << "A double tile may be placed on another double tile only if it has more total pips than the tile on which it is placed." << std::endl;
+		return 0;
+	}
 }
