@@ -72,14 +72,15 @@ void tournament::start_tournament()
 		continue_game = 0;
 
 		//incremenet round_counter
-		m_game_round_counter++;
+		//m_game_round_counter++;
 		//initialize new round
 		m_round = new game_round();
 		//first pick if first round
-		if (m_game_round_counter == 1)
+		if (m_game_round_counter == 0)
 		{
 			m_round->first_pick(m_human,m_bot,m_turn_order, m_stack.get_stack());
 		}
+		std::cout << "ROUND: " << m_game_round_counter+1 << std::endl;
 		
 		//play
 		m_round->round_play( m_human,m_bot,m_stack, m_turn_order);
@@ -94,6 +95,11 @@ void tournament::start_tournament()
 		//score
 		m_round->score(m_stack,m_turn_order,m_scoreboard,m_game_round_counter);
 
+		//clear hands
+		for (auto x : m_turn_order)
+		{
+			x->get_hand().clear();
+		}
 
 		//continue?
 		if (m_game_round_counter < 3)
