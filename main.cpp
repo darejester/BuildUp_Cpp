@@ -50,6 +50,11 @@ https://pages.ramapo.edu/~amruth/teaching/opl/projects/buildup/problem.html
 - fix bot mechanics(AI)(how it plays)(done)
 - fix ask for help(done)
 
+- fix round and hand
+    - round = the whole game of 4 hands
+- winner for each hand
+- winner for each round
+- play another round
 - fix serialization(fix, resume)
 - fix winner declaration
 
