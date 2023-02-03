@@ -108,14 +108,14 @@ void human::place(stack& a_stack)
 		std::cout << "which domino do you want to place?" << std::endl;
 		std::cin >> loc1;
 		//input validation
-		while (loc1 >= m_hand.size())
+		while (loc1 >= m_hand.size() || loc1 < 0)
 		{
 			std::cout << "There is no domino in that part of your hand. Enter again..." << std::endl;
 			std::cin >> loc1;
 		}
 		std::cout << "where to place it?" << std::endl;
 		std::cin >> loc2;
-		while (loc2 >= 12)
+		while (loc2 >= 12 || loc2 < 0)
 		{
 			std::cout << "Invalid location. Enter again..." << std::endl;
 			std::cin >> loc2;
@@ -160,7 +160,7 @@ void human::player_play(stack& a_stack, player* a_bot)
 	std::cout << "ACTIONS:" << std::endl;
 	std::cout << "1-Place card, 2-Ask Bot for Help,...." << std::endl;
 	std::cin >> action;
-	while (action < 1)
+	while (action < 2 || action <= 0)
 	{
 		std::cout << "INPUT INVALID. Try again...." << std::endl;
 		std::cin >> action;
@@ -217,6 +217,11 @@ void human::get_help(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack
 	std::cout << "Do you want to play this move?" << std::endl;
 	std::cout << "1= yes, 0 = no" << std::endl;
 	std::cin >> ans;
+	while (ans > 1 || ans < 0)
+	{
+		std::cout << "Input invalid. pleas try again..." << std::endl;
+		std::cin >> ans;
+	}
 	if (ans == 1)
 	{
 		//place

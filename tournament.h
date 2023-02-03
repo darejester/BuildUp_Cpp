@@ -170,6 +170,10 @@ void tournament::start_tournament()
 				continued_tournament = 1;
 				continue;
 			}
+			else if (continue_game == 2)
+			{
+				//call save function
+			}
 			else // display winner
 			{
 				if (std::accumulate(m_tournament_scoreboard[0].begin(), m_tournament_scoreboard[0].end(), 0) > std::accumulate(m_tournament_scoreboard[1].begin(), m_tournament_scoreboard[1].end(), 0))

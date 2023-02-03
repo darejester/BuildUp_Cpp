@@ -13,6 +13,11 @@ int main()
     std::cout << "WELCOME!" << std::endl;
     std::cout << "0 - start new tournament" << std::endl;
     std::cin >> answer;
+    while (answer < 0)
+    {
+        std::cout << "Input invalid. Please try again...." << std::endl;
+        std::cin >> answer;
+    }
 
     if (answer == 0)
     {
