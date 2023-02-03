@@ -101,7 +101,7 @@ void game_round::score(stack& a_stack, player* a_turn_order[2], int(&a_scoreboar
 	std::vector<domino*>& stack_temp = a_stack.get_stack();
 	std::vector<domino*>::iterator it;
 
-	std::cout << "score:" << std::endl;
+	//std::cout << "score:" << std::endl;
 	//it = stack_temp.begin();
 
 	for (int p = 0; p < 2; p++)
@@ -137,9 +137,7 @@ void game_round::score(stack& a_stack, player* a_turn_order[2], int(&a_scoreboar
 
 	a_scoreboard[0] += human_total;
 	a_scoreboard[1] += bot_total;
-	//B = player, W = bot
-	std::cout << "SCOREBOARD: " << std::endl;
-	std::cout << "B : " << a_scoreboard[0] << std::endl;
-	std::cout << "W : " << a_scoreboard[1] << std::endl;
+	
+	
 
 }

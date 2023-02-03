@@ -189,9 +189,11 @@ bool bot::check_playable(std::vector<domino*>& a_hand, std::vector<domino*>& a_s
 
 void bot::strategy(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_temp, int& a_loc1, int& a_loc2)
 {
-	for (int h = 0; h < a_hand.size(); h ++)
+	int h = 0;
+	int s = 0;
+	while (h < a_hand.size())
 	{
-		int s = 0;
+		
 		//check best strategic move
 		while (s < a_stack_temp.size())
 		{
@@ -209,7 +211,13 @@ void bot::strategy(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_t
 			s++;
 		}
 		s = 0;
+		h++;
+	}
+	s = 0;
+	h = 0;
 
+	while (h < a_hand.size())
+	{
 		while (s < a_stack_temp.size())
 		{
 			if ((a_stack_temp[s]->display_color() != a_hand[h]->display_color()) && (a_hand[h]->display_l_pips() == a_hand[h]->display_r_pips()) && (a_hand[h]->total_pips() < a_stack_temp[s]->total_pips()))//place low-value double on high value tile of enemy
@@ -226,7 +234,13 @@ void bot::strategy(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_t
 			s++;
 		}
 		s = 0;
+		h++;
+	}
+	s = 0;
+	h = 0;
 
+	while (h < a_hand.size())
+	{
 		while (s < a_stack_temp.size())
 		{
 			if ((a_stack_temp[s]->display_color() == a_hand[h]->display_color()))//place playable tile on own tile
@@ -244,7 +258,12 @@ void bot::strategy(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_t
 			s++;
 		}
 		s = 0;
-
+		h++;
+	}
+	s = 0;
+	h = 0;
+	while (h < a_hand.size())
+	{
 		while (s < a_stack_temp.size())
 		{
 			if (this->check_legality(a_hand, a_stack_temp, h, s))
@@ -258,8 +277,8 @@ void bot::strategy(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_t
 			}
 			s++;
 		}
-
 	}
+	
 }
 
 bool bot::check_legality(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_temp, int& a_loc1, int& a_loc2)
