@@ -71,3 +71,9 @@ January 29, 2023
 January 30, 2023
 - Implemented strategy and "get help" mechanic
 - used loops to iterate though hand and stack to figure out which is the best move to play
+
+February 2, 2023
+- fixed strategy mechanic
+	- now iterates through whole hand and stacks to see if a strategic move is possible.
+- fixed confusion about what a hand is and a round is 
+- started implementing serialization
