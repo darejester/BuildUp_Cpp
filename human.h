@@ -7,6 +7,7 @@ class human : public player
 {
 public:
 	human();
+	human(std::vector<domino*> a_temp_hand, std::vector<domino*> a_temp_boneyard):m_hand(a_temp_hand), m_boneyard(a_temp_boneyard) {}
 	std::vector<domino*>& get_hand() { return m_hand; }
 	std::vector<domino*>& get_boneyard() { return m_boneyard; }
 	void draw();

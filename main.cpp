@@ -11,9 +11,9 @@ int main()
 
  
     std::cout << "WELCOME!" << std::endl;
-    std::cout << "0 - start new tournament" << std::endl;
+    std::cout << "0 - start new tournament, 1 - resume saved tournament" << std::endl; 
     std::cin >> answer;
-    while (answer < 0)
+    while (answer < 0 || answer > 1)
     {
         std::cout << "Input invalid. Please try again...." << std::endl;
         std::cin >> answer;
@@ -57,8 +57,8 @@ https://pages.ramapo.edu/~amruth/teaching/opl/projects/buildup/problem.html
 
 - fix round and hand
     - round = the whole game of 4 hands
-- winner for each hand
-- winner for each round
+- winner for each hand(done)
+- winner for each round(done)
 - play another round
 - fix serialization(fix, resume)
 - fix winner declaration

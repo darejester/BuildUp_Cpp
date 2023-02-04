@@ -5,6 +5,9 @@
 #include "human.h"
 #include "bot.h"
 #include <numeric>
+#include <fstream>
+#include <string>
+#include <sstream>
 
 class tournament
 {
@@ -21,7 +24,11 @@ public:
 	// get reference of m_stack
 	stack& get_stack() { return m_stack; }
 	//resume game
-	void resume_tournament() { std::cout << "to be implemented" << std::endl; }
+	void resume_tournament();
+	void read_to_stack(std::string a_temp);
+	void read_to_player(std::string a_temp1, std::string a_temp2, std::string a_temp3, std::string a_temp4);
+	void read_to_score(std::string a_temp1, std::string a_temp2, std::string a_temp3, std::string a_temp4);
+	void read_in_turn(std::string a_temp);
 	//save game
 	//next round
 		// create next round
@@ -43,7 +50,7 @@ private:
 	// holds number of rounds
 	int m_game_round_counter;
 	// holds tournament scoreboard
-	std::vector<int> m_tournament_scoreboard[2];
+	int m_tournament_scoreboard[2];
 };
 
 
@@ -59,6 +66,8 @@ tournament::tournament()
 	m_human->fill_stack(m_stack.get_stack());
 	m_turn_order[0] = NULL;
 	m_turn_order[1] = NULL;
+	m_tournament_scoreboard[0] = 0;
+	m_tournament_scoreboard[1] = 0;
 	//m_turn_order[0] = m_human;
 	//m_turn_order[1] = m_bot;
 	//m_turn_order[1]->fill_stack(m_stack.get_stack());
@@ -80,7 +89,7 @@ void tournament::start_tournament()
 		//initialize new round
 		m_round = new game_round();
 		//first pick if first round
-		if (m_game_round_counter == 0)
+		if (m_human->get_boneyard().size() == 22)
 		{
 			m_round->first_pick(m_human,m_bot,m_turn_order, m_stack.get_stack());
 		}
@@ -90,22 +99,16 @@ void tournament::start_tournament()
 		//std::cout << "Scoreboard: " << std::endl;
 		//std::cout << "B : " << m_scoreboard[0] << std::endl;
 		//std::cout << "W : " << m_scoreboard[1] << std::endl;
-		if (continued_tournament == 1)
-		{
-			std::cout << "TOURNAMENT SCOREBOARD" << std::endl;
-			std::cout << "B: ";
-			for (int i = 0; i < m_tournament_scoreboard[0].size(); i++)
-			{
-				 std::cout<< m_tournament_scoreboard[0][i] << " ";
-			}
-			std::cout << std::endl;
-			std::cout << "W: ";
-			for (int i = 0; i < m_tournament_scoreboard[1].size(); i++)
-			{
-				 std::cout<< m_tournament_scoreboard[1][i] << " ";
-			}
-			std::cout << std::endl;
-		}
+		std::cout << "B : " << m_scoreboard[0] << std::endl;
+		std::cout << "W : " << m_scoreboard[1] << std::endl;
+
+		std::cout << "TOURNAMENT SCOREBOARD" << std::endl;
+		std::cout << "B: " << m_tournament_scoreboard[0];
+			
+		std::cout << std::endl;
+		std::cout << "W: " << m_tournament_scoreboard[1];
+		std::cout << std::endl;
+
 
 		//play
 		m_round->round_play( m_human,m_bot,m_stack, m_turn_order);
@@ -120,6 +123,8 @@ void tournament::start_tournament()
 		//score
 		m_round->score(m_stack, m_turn_order, m_scoreboard, m_game_round_counter);
 
+		
+
 		//clear hands
  		for (auto x : m_turn_order)
 		{
@@ -127,8 +132,18 @@ void tournament::start_tournament()
 		}
 
 		//continue?
-		if (m_game_round_counter == 3)
+		if (m_human->get_boneyard().empty())
 		{
+			//update tournament scoreboard
+			if (m_scoreboard[0] > m_scoreboard[1])
+			{
+				m_tournament_scoreboard[0]++;
+			}
+			else if (m_scoreboard[0] < m_scoreboard[1])
+			{
+				m_tournament_scoreboard[1]++;
+			}
+
 			//B = player, W = bot
 			std::cout << "End of Round Scores: " << std::endl;
 			std::cout << "B : " << m_scoreboard[0] << std::endl;
@@ -144,17 +159,7 @@ void tournament::start_tournament()
 
 			if (continue_game == 1)
 			{
-				//update tournament scoreboard
-				if (m_turn_order[0] > m_turn_order[1])
-				{
-					m_tournament_scoreboard[0].push_back(1);
-					m_tournament_scoreboard[1].push_back(0);
-				}
-				else if (m_turn_order[0] < m_turn_order[1])
-				{
-					m_tournament_scoreboard[1].push_back(1);
-					m_tournament_scoreboard[0].push_back(0);
-				}
+				
 
 				m_game_round_counter = 0;
 				delete m_bot;
@@ -176,11 +181,11 @@ void tournament::start_tournament()
 			}
 			else // display winner
 			{
-				if (std::accumulate(m_tournament_scoreboard[0].begin(), m_tournament_scoreboard[0].end(), 0) > std::accumulate(m_tournament_scoreboard[1].begin(), m_tournament_scoreboard[1].end(), 0))
+				if ((m_tournament_scoreboard[0] > m_tournament_scoreboard[1]))
 				{
 					std::cout << "WINNER: HUMAN!" << std::endl;
 				}
-				else if (std::accumulate(m_tournament_scoreboard[0].begin(), m_tournament_scoreboard[0].end(), 0) < std::accumulate(m_tournament_scoreboard[1].begin(), m_tournament_scoreboard[1].end(), 0))
+				else if (m_tournament_scoreboard[0] < m_tournament_scoreboard[1])
 				{
 					std::cout << "WINNER: BOT!" << std::endl;
 				}
@@ -200,4 +205,209 @@ int tournament::next_round()
 {
 	m_game_round_counter++;
 	return m_game_round_counter;
+}
+
+void tournament::resume_tournament() 
+{ 
+	//read from save file
+	std::cout << "to be implemented" << std::endl; 
+	//clear out stack
+	m_stack.get_stack().clear();
+	//clear out player infos
+	m_human->get_hand().clear();
+	m_human->get_boneyard().clear();
+	m_bot->get_hand().clear();
+	m_bot->get_boneyard().clear();
+	std::ifstream file("OPLsaveFile.txt");
+	std::vector<std::string> hand_temp;
+	std::vector<std::string> stack_temp;
+	std::vector<std::string> divided_line;
+	std::string line;
+
+	
+	if (file.is_open()) 
+	{
+		//divide line into a vector
+		while (std::getline(file, line)) 
+		{  
+			divided_line.push_back(line);
+		}
+		//read in stacks
+		read_to_stack(divided_line[1]);
+		read_to_stack(divided_line[8]);
+		//m_stack.display_stack();
+
+		//read in player infos
+		read_to_player(divided_line[2],divided_line[3],divided_line[9],divided_line[10]);
+
+		//read in scores
+		read_to_score(divided_line[4], divided_line[11],divided_line[5],divided_line[12]);
+
+		//read in turn
+		read_in_turn(divided_line[14]);
+
+
+		file.close();  // Close the file when you're done
+
+		//start tournament where it left off
+		start_tournament();
+	}
+	else {
+		std::cout << "Unable to open file" << std::endl;
+	}
+}
+
+void tournament::read_to_stack(std::string a_temp) 
+{
+	std::istringstream iss(a_temp);
+	std::string word;
+	while (iss >> word)
+	{
+		if (word == "Stacks:")
+		{
+			continue;
+		}
+		//std::cout << word[1] << std::endl;
+		m_stack.get_stack().push_back(new domino(int(word[1]) - 48, int(word[2]) - 48, word[0]));
+		//idx++;
+	}
+	
+}
+
+void tournament::read_to_player(std::string a_temp1, std::string a_temp2, std::string a_temp3, std::string a_temp4)
+{
+	//1 = bot boneyard, 2 = bot hand, 3 = human boneyard, 4 = human boneyard
+	std::vector<domino*> a_temp_hand;
+	std::vector<domino*> a_temp_boneyard;
+	std::istringstream iss1(a_temp1);
+	std::istringstream iss2(a_temp2);
+	std::istringstream iss3(a_temp3);
+	std::istringstream iss4(a_temp4);
+
+	std::string word;
+
+	//bot
+	while (iss1 >> word)
+	{
+		if (word == "Boneyard:")
+		{
+			continue;
+		}
+		//std::cout << word[1] << std::endl;
+		m_bot->get_boneyard().push_back(new domino(int(word[1]) - 48, int(word[2]) - 48, word[0]));
+		//idx++;
+	}
+	while (iss2 >> word)
+	{
+		if (word == "Hand:")
+		{
+			continue;
+		}
+		//std::cout << word[1] << std::endl;
+		m_bot->get_hand().push_back(new domino(int(word[1]) - 48, int(word[2]) - 48, word[0]));
+		//idx++;
+	}
+
+	//human
+	while (iss3 >> word)
+	{
+		if (word == "Boneyard:")
+		{
+			continue;
+		}
+		//std::cout << word[1] << std::endl;
+		m_human->get_boneyard().push_back(new domino(int(word[1]) - 48, int(word[2]) - 48, word[0]));
+		//idx++;
+	}
+	while (iss4 >> word)
+	{
+		if (word == "Hand:")
+		{
+			continue;
+		}
+		//std::cout << word[1] << std::endl;
+		m_human->get_hand().push_back(new domino(int(word[1]) - 48, int(word[2]) - 48, word[0]));
+		//idx++;
+	}
+
+
+}
+
+void tournament::read_to_score(std::string a_temp1, std::string a_temp2, std::string a_temp3, std::string a_temp4)
+{
+	std::istringstream iss1(a_temp1);
+	std::istringstream iss2(a_temp2);
+	std::istringstream iss3(a_temp3);
+	std::istringstream iss4(a_temp4);
+	std::string word;
+	//bot
+	while (iss1 >> word)
+	{
+		if (word == "Score:")
+		{
+			continue;
+		}
+		//std::cout << word[1] << std::endl;
+		m_scoreboard[1] = stoi(word);
+		//idx++;
+	}
+	while (iss3 >> word)
+	{
+		if (word == "Rounds" || word == "Won:")
+		{
+			continue;
+		}
+		//std::cout << word[1] << std::endl;
+		m_tournament_scoreboard[1] += stoi(word);
+		//idx++;
+	}
+
+	//human
+	while (iss2 >> word)
+	{
+		if (word == "Score:")
+		{
+			continue;
+		}
+		//std::cout << word[1] << std::endl;
+		m_scoreboard[0] = stoi(word);
+		//idx++;
+	}
+	while (iss4 >> word)
+	{
+		if (word == "Rounds" || word == "Won:")
+		{
+			continue;
+		}
+		//std::cout << word[1] << std::endl;
+		m_tournament_scoreboard[0] += stoi(word);
+		//idx++;
+	}
+	
+}
+
+void tournament::read_in_turn(std::string a_temp)
+{
+	std::istringstream iss1(a_temp);
+	std::string word;
+	while (iss1 >> word)
+	{
+		if (word == "Turn:")
+		{
+			continue;
+		}
+		//std::cout << word[1] << std::endl;
+		if (word == "Human")
+		{
+			m_turn_order[0] = m_human;
+			m_turn_order[1] = m_bot;
+		}
+		else if (word == "Computer")
+		{
+			m_turn_order[0] = m_bot;
+			m_turn_order[1] = m_human;
+		}
+		
+		//idx++;
+	}
 }
