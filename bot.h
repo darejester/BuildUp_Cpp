@@ -116,7 +116,7 @@ void bot::place(stack& a_stack)
 
 	
 
-	while (this->check_playable(m_hand,temp))
+	if (this->check_playable(m_hand,temp))
 	{
 		//get locations
 		//loc1 = rand() % m_hand.size();
@@ -131,7 +131,7 @@ void bot::place(stack& a_stack)
 			it = m_hand.begin() + loc1;
 			m_hand.erase(it);
 			//display_hand();
-			break;
+			return;
 		}
 	}
 
@@ -278,6 +278,7 @@ void bot::strategy(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_t
 			}
 			s++;
 		}
+		s = 0;
 	}
 	
 }

@@ -103,7 +103,7 @@ void human::place(stack& a_stack)
 	int loc2;
 	std::vector<domino*>& temp = a_stack.get_stack();
 	std::vector<domino*>::iterator it;
-	while (this->check_playable(m_hand, temp))
+	if (this->check_playable(m_hand, temp))
 	{
 		//get locations
 		std::cout << "which domino do you want to place?" << std::endl;
@@ -130,7 +130,7 @@ void human::place(stack& a_stack)
 			it = m_hand.begin() + loc1;
 			m_hand.erase(it);
 			//display_hand();
-			break;
+			return;
 		}
 	}
 	
@@ -157,6 +157,7 @@ void human::player_play(stack& a_stack, player* a_bot)
 	int loc1 = 0;
 	int loc2 = 0;
 	int action = -1;
+
 	//action input
 	std::cout << "ACTIONS:" << std::endl;
 	std::cout << "1-Place card, 2-Ask Bot for Help,...." << std::endl;
@@ -171,10 +172,13 @@ void human::player_play(stack& a_stack, player* a_bot)
 	{
 		this->place(a_stack);
 	}
-	else if(action == 2)
+	else if (action == 2)
 	{
 		this->get_help(m_hand, a_stack.get_stack(), loc1, loc2, a_bot);
 	}
+
+
+	
 }
 
 bool human::check_playable(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_temp)

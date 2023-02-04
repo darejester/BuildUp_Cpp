@@ -39,29 +39,45 @@ void game_round::round_play(player* a_human, player* a_bot, stack& a_stack, play
 	
 	//a_turn_order[0]->display_boneyard();
 	// human and bot draw
-	a_turn_order[0]->draw();
-	a_turn_order[1]->draw();
-	for (int i = 0; i < 2; i++)
+	int turn = 0;
+	if (!a_turn_order[turn]->check_playable(a_turn_order[turn]->get_hand(), a_stack.get_stack()))
 	{
-		while (a_turn_order[i]->check_playable(a_turn_order[i]->get_hand(),a_stack.get_stack()))
-		{
-			std::cout << "=============================================================================" << std::endl;
-			std::cout << "TURN: " << (a_turn_order[i]->get_hand())[0]->display_color() << std::endl;
-			std::cout << "=============================================================================" << std::endl;
-			a_bot->display_boneyard();
-			a_bot->display_hand();
-			a_stack.display_stack();
-			a_human->display_hand();
-			a_human->display_boneyard();
-			std::cout << "=============================================================================" << std::endl;
-			//replace .place(a_stack) with .place(a_stack.get_stack())
-
-			a_turn_order[i]->player_play(a_stack,a_bot);
-
-			
-
-		}
+		a_turn_order[0]->draw();
+		a_turn_order[1]->draw();
 	}
+	
+	
+
+	while (a_turn_order[0]->check_playable(a_turn_order[0]->get_hand(),a_stack.get_stack()) || a_turn_order[1]->check_playable(a_turn_order[1]->get_hand(), a_stack.get_stack()))
+	{
+		std::cout << "=============================================================================" << std::endl;
+		std::cout << "TURN: " << (a_turn_order[turn]->get_hand())[0]->display_color() << std::endl;
+		std::cout << "=============================================================================" << std::endl;
+		a_bot->display_boneyard();
+		a_bot->display_hand();
+		a_stack.display_stack();
+		a_human->display_hand();
+		a_human->display_boneyard();
+		std::cout << "=============================================================================" << std::endl;
+		//replace .place(a_stack) with .place(a_stack.get_stack())
+
+		if (a_turn_order[turn]->check_playable(a_turn_order[turn]->get_hand(), a_stack.get_stack()))
+		{
+			a_turn_order[turn]->player_play(a_stack, a_bot);
+		}
+		
+
+		if (turn == 0)
+		{
+			turn = 1;
+		}
+		else
+		{
+			turn = 0;
+		}
+
+	}
+	
 }
 	
 
