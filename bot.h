@@ -119,15 +119,14 @@ void bot::place(stack& a_stack)
 	//std::cout << "where to place it?" << std::endl;
 	//std::cin >> loc2;
 
-	
-
 	//get locations
 	//loc1 = rand() % m_hand.size();
 	//loc2 = rand() % temp.size();
 	this->strategy(m_hand, temp, loc1, loc2);
 
 	//check if placement of domino is legal
-	if (this->check_legality(m_hand,temp,loc1,loc2) )//condition 1
+	//condition 1
+	if (this->check_legality(m_hand,temp,loc1,loc2) )
 	{
 		//place
 		temp[loc2] = m_hand[loc1];
@@ -167,18 +166,21 @@ bool bot::check_playable(std::vector<domino*>& a_hand, std::vector<domino*>& a_s
 		for (auto h : a_hand)
 		{
 			//check if placement of domino is legal
-			if ((h->display_l_pips() != h->display_r_pips()) && (h->total_pips() >= t->total_pips())) //condition 1
+			//condition 1
+			//condition 2
+			//condition 3
+			if ((h->display_l_pips() != h->display_r_pips()) && (h->total_pips() >= t->total_pips())) 
 			{
 				return 1;
 
 
 			}
-			else if ((h->display_l_pips() == h->display_r_pips()) && (t->display_l_pips() != t->display_r_pips())) //condition 2
+			else if ((h->display_l_pips() == h->display_r_pips()) && (t->display_l_pips() != t->display_r_pips())) 
 			{
 
 				return 1;
 			}
-			else if ((h->display_l_pips() == h->display_r_pips()) && (t->display_l_pips() == t->display_r_pips()) && (h->total_pips() > t->total_pips())) //condition 3
+			else if ((h->display_l_pips() == h->display_r_pips()) && (t->display_l_pips() == t->display_r_pips()) && (h->total_pips() > t->total_pips())) 
 			{
 
 				return 1;
@@ -198,9 +200,10 @@ void bot::strategy(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_t
 	{
 		
 		//check best strategic move
+		//place higher tile on enemy tile
 		while (s < a_stack_temp.size())
 		{
-			if ((a_stack_temp[s]->display_color() != a_hand[h]->display_color()) && (a_stack_temp[s]->total_pips() < a_hand[h]->total_pips()))//place higher tile on enemy tile
+			if ((a_stack_temp[s]->display_color() != a_hand[h]->display_color()) && (a_stack_temp[s]->total_pips() < a_hand[h]->total_pips()))
 			{
 				if (this->check_legality(a_hand, a_stack_temp, h, s))
 				{
@@ -219,11 +222,12 @@ void bot::strategy(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_t
 	s = 0;
 	h = 0;
 
+	//place low-value double on high value tile of enemy
 	while (h < a_hand.size())
 	{
 		while (s < a_stack_temp.size())
 		{
-			if ((a_stack_temp[s]->display_color() != a_hand[h]->display_color()) && (a_hand[h]->display_l_pips() == a_hand[h]->display_r_pips()) && (a_hand[h]->total_pips() < a_stack_temp[s]->total_pips()))//place low-value double on high value tile of enemy
+			if ((a_stack_temp[s]->display_color() != a_hand[h]->display_color()) && (a_hand[h]->display_l_pips() == a_hand[h]->display_r_pips()) && (a_hand[h]->total_pips() < a_stack_temp[s]->total_pips()))
 			{
 				if (this->check_legality(a_hand, a_stack_temp, h, s))
 				{
@@ -242,11 +246,12 @@ void bot::strategy(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_t
 	s = 0;
 	h = 0;
 
+	//place playable tile on own tile
 	while (h < a_hand.size())
 	{
 		while (s < a_stack_temp.size())
 		{
-			if ((a_stack_temp[s]->display_color() == a_hand[h]->display_color()))//place playable tile on own tile
+			if ((a_stack_temp[s]->display_color() == a_hand[h]->display_color()))
 			{
 				if (this->check_legality(a_hand, a_stack_temp, h, s))
 				{
@@ -288,17 +293,20 @@ void bot::strategy(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_t
 bool bot::check_legality(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_temp, int& a_loc1, int& a_loc2)
 {
 	//check if placement of domino is legal
-	if ((a_hand[a_loc1]->display_l_pips() != a_hand[a_loc1]->display_r_pips()) && (a_hand[a_loc1]->total_pips() >= a_stack_temp[a_loc2]->total_pips())) //condition 1
+	//condition 1
+	//condition 2
+	//condition 3
+	if ((a_hand[a_loc1]->display_l_pips() != a_hand[a_loc1]->display_r_pips()) && (a_hand[a_loc1]->total_pips() >= a_stack_temp[a_loc2]->total_pips())) 
 	{
 		//place
 		return 1;
 
 	}
-	else if ((a_hand[a_loc1]->display_l_pips() == a_hand[a_loc1]->display_r_pips()) && (a_stack_temp[a_loc2]->display_l_pips() != a_stack_temp[a_loc2]->display_r_pips())) //condition 2
+	else if ((a_hand[a_loc1]->display_l_pips() == a_hand[a_loc1]->display_r_pips()) && (a_stack_temp[a_loc2]->display_l_pips() != a_stack_temp[a_loc2]->display_r_pips())) 
 	{
 		return 1;
 	}
-	else if ((a_hand[a_loc1]->display_l_pips() == a_hand[a_loc1]->display_r_pips()) && (a_stack_temp[a_loc2]->display_l_pips() == a_stack_temp[a_loc2]->display_r_pips()) && (a_hand[a_loc1]->total_pips() > a_stack_temp[a_loc2]->total_pips())) //condition 3
+	else if ((a_hand[a_loc1]->display_l_pips() == a_hand[a_loc1]->display_r_pips()) && (a_stack_temp[a_loc2]->display_l_pips() == a_stack_temp[a_loc2]->display_r_pips()) && (a_hand[a_loc1]->total_pips() > a_stack_temp[a_loc2]->total_pips())) 
 	{
 		return 1;
 	}

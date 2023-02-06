@@ -24,28 +24,3 @@ public:
 private:
 
 };
-
-//player::player()
-//{
-//	for (int i = 0; i < 28; i++)
-//	{
-//		m_boneyard.push_back(new domino);
-//	}
-//	std::cout << "player object created" << std::endl;
-//}
-
-//void player::fill_stack(std::vector<domino*>& a_stack)
-//{
-//	//MAKE THIS START FROM 0 TO <6 FOR BOT
-//	for (int i = 6; i < 12; i++)
-//	{
-//		//m_hand.push_back(*m_boneyard.begin());
-//		a_stack.insert(a_stack.begin() + i, *m_boneyard.begin());
-//		//erase 
-//		m_boneyard.erase(m_boneyard.begin());
-//
-//
-//
-//	}
-//
-//}

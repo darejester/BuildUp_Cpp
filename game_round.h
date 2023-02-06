@@ -102,8 +102,6 @@ bool game_round::round_play(player* a_human, player* a_bot, stack& a_stack, play
 
 	
 }
-	
-
 
 void game_round::first_pick(player* a_human, player* a_bot, player* a_turn_order[2], std::vector<domino*>& a_stack)
 {

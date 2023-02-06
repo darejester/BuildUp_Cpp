@@ -1,3 +1,14 @@
+/*
+     ************************************************************
+     * Name:  John Matthew Sahagun                              *
+     * Project:  Build-Up C++ version                           *
+     * Class:  OPL CMPS366 01                                   *
+     * Date:  2/8/2023                                          *
+     ************************************************************
+*/
+
+
+
 #include "libraries.h"
 #include "domino.h"
 #include "stack.h"

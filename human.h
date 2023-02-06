@@ -54,6 +54,18 @@ human::human()
 	std::cout << "human object created" << std::endl;
 }
 
+/* *********************************************************************
+Function Name: draw
+Purpose: to get dominos from boneyard
+Parameters: None
+Return Value: None
+Algorithm:
+			1) loop six times
+			2) check if boneyard is empty. If not,...
+			3) push domino from boneyard to hand
+			4) erase domino from boneyard
+Assistance Received: none
+********************************************************************* */
 void human::draw()
 {
 	for (int i = 0; i < 6; i++)
@@ -73,6 +85,16 @@ void human::draw()
 
 }
 
+/* *********************************************************************
+Function Name: draw
+Purpose: to get dominos from boneyard
+Parameters: None
+Return Value: None
+Algorithm:
+			1) Add all the grades
+			2) Divide the sum by the number of students in class to calculate the average
+Assistance Received: none
+********************************************************************* */
 void human::display_hand()
 {
 	std::cout << "PLAYER HAND:" << std::endl;
@@ -126,7 +148,8 @@ void human::place(stack& a_stack)
 		}
 
 		//check if placement of domino is legal
-		if (this->check_legality(m_hand, temp, loc1, loc2))//condition 1
+		//condition 1
+		if (this->check_legality(m_hand, temp, loc1, loc2))
 		{
 			//place
 			temp[loc2] = m_hand[loc1];
@@ -192,18 +215,21 @@ bool human::check_playable(std::vector<domino*>& a_hand, std::vector<domino*>& a
 		for (auto h : a_hand)
 		{
 			//check if placement of domino is legal
-			if ((h->display_l_pips() != h->display_r_pips()) && (h->total_pips() >= t->total_pips())) //condition 1
+			//condition 1
+			//condition 2
+			//condition 3
+			if ((h->display_l_pips() != h->display_r_pips()) && (h->total_pips() >= t->total_pips())) 
 			{
 				return 1;
 				
 
 			}
-			else if ((h->display_l_pips() == h->display_r_pips()) && (t->display_l_pips() != t->display_r_pips())) //condition 2
+			else if ((h->display_l_pips() == h->display_r_pips()) && (t->display_l_pips() != t->display_r_pips())) 
 			{
 				
 				return 1;
 			}
-			else if ((h->display_l_pips() == h->display_r_pips()) && (t->display_l_pips() == t->display_r_pips()) && (h->total_pips() > t->total_pips())) //condition 3
+			else if ((h->display_l_pips() == h->display_r_pips()) && (t->display_l_pips() == t->display_r_pips()) && (h->total_pips() > t->total_pips())) 
 			{
 				
 				return 1;
@@ -246,17 +272,20 @@ void human::get_help(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack
 bool human::check_legality(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_temp, int& a_loc1, int& a_loc2)
 {
 	//check if placement of domino is legal
-	if ((a_hand[a_loc1]->display_l_pips() != a_hand[a_loc1]->display_r_pips()) && (a_hand[a_loc1]->total_pips() >= a_stack_temp[a_loc2]->total_pips())) //condition 1
+	//condition 1
+	//condition 2
+	//condition 3
+	if ((a_hand[a_loc1]->display_l_pips() != a_hand[a_loc1]->display_r_pips()) && (a_hand[a_loc1]->total_pips() >= a_stack_temp[a_loc2]->total_pips())) 
 	{
 		//place
 		return 1;
 
 	}
-	else if ((a_hand[a_loc1]->display_l_pips() == a_hand[a_loc1]->display_r_pips()) && (a_stack_temp[a_loc2]->display_l_pips() != a_stack_temp[a_loc2]->display_r_pips())) //condition 2
+	else if ((a_hand[a_loc1]->display_l_pips() == a_hand[a_loc1]->display_r_pips()) && (a_stack_temp[a_loc2]->display_l_pips() != a_stack_temp[a_loc2]->display_r_pips())) 
 	{
 		return 1;
 	}
-	else if ((a_hand[a_loc1]->display_l_pips() == a_hand[a_loc1]->display_r_pips()) && (a_stack_temp[a_loc2]->display_l_pips() == a_stack_temp[a_loc2]->display_r_pips()) && (a_hand[a_loc1]->total_pips() > a_stack_temp[a_loc2]->total_pips())) //condition 3
+	else if ((a_hand[a_loc1]->display_l_pips() == a_hand[a_loc1]->display_r_pips()) && (a_stack_temp[a_loc2]->display_l_pips() == a_stack_temp[a_loc2]->display_r_pips()) && (a_hand[a_loc1]->total_pips() > a_stack_temp[a_loc2]->total_pips())) 
 	{
 		return 1;
 	}

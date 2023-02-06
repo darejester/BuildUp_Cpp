@@ -83,12 +83,13 @@ void tournament::start_tournament()
 	int continue_game = 1;
 	int continued_tournament = 0;
 	// game loop
-	while (continue_game == 1/*replace with something that I can equal to the number of rounds in tournament class*/)
+	while (continue_game == 1)
 	{
 		//continue_game = 0;
 
 		//incremenet round_counter
 		//m_game_round_counter++;
+		
 		//initialize new round
 		m_round = new game_round();
 		//first pick if first round
@@ -213,12 +214,6 @@ void tournament::start_tournament()
 		m_game_round_counter++;
 	}
 }
-
-//int tournament::next_round()
-//{
-//	m_game_round_counter++;
-//	return m_game_round_counter;
-//}
 
 void tournament::resume_tournament() 
 { 
