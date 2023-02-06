@@ -23,6 +23,8 @@ public:
 
 	void display_stack();
 
+	~stack() { std::cout << "destroyed stack" << std::endl; }
+
 private:
 	// holds dominos for bot boneyard
 	//std::vector<domino*> m_bot_boneyard;

@@ -1,9 +1,11 @@
 #pragma once
+#include "tournament.h"
 #include "player.h"
 #include <algorithm>
 #include <random>
 #include <vector>
 #include <numeric>
+
 
 class game_round
 {
@@ -15,6 +17,7 @@ public:
 	void first_pick(player* a_human,player* a_bot,player* a_turn_order[2], std::vector<domino*>& a_stack);
 	//score
 	void score(stack& a_stack,player* a_turn_order[2],int (&a_scoreboard)[2], int a_game_round_counter);
+	
 
 
 	~game_round() { std::cout << "destroyed round" << std::endl; }
@@ -36,10 +39,26 @@ game_round::game_round()
 
 void game_round::round_play(player* a_human, player* a_bot, stack& a_stack, player* a_turn_order[2])
 {
+	int turn = 0;
+	int ans = -1;
+
+	std::cout << "Do you wan to save game?" << std::endl;
+	std::cout << "1 = yes, 0 = no" << std::endl;
+	std::cin >> ans;
+	while (ans > 1 || ans < 0)
+	{
+		std::cout << "invalid input. Please try again..." << std::endl;
+		std::cin >> ans;
+	}
+
+	if (ans == 1)
+	{
+		//save game
+		
+	}
 	
 	//a_turn_order[0]->display_boneyard();
 	// human and bot draw
-	int turn = 0;
 	if (!a_turn_order[turn]->check_playable(a_turn_order[turn]->get_hand(), a_stack.get_stack()))
 	{
 		a_turn_order[0]->draw();
@@ -74,6 +93,24 @@ void game_round::round_play(player* a_human, player* a_bot, stack& a_stack, play
 		else
 		{
 			turn = 0;
+		}
+
+		std::cout << "Do you wan to save game?" << std::endl;
+		std::cout << "1 = yes, 0 = no" <<std::endl;
+		std::cin >> ans;
+		while (ans > 1 || ans < 0)
+		{
+			std::cout << "invalid input. Please try again..." << std::endl;
+			std::cin >> ans;
+		}
+
+		if (ans == 1)
+		{
+			//save game
+		}
+		else
+		{
+			continue;
 		}
 
 	}

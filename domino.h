@@ -17,7 +17,7 @@ public:
 
 	void display_domino() { std::cout << m_color  << m_l_pips  << m_r_pips; }
 
-	~domino() {};
+	~domino() { std::cout << "destroyed domino" << std::endl; };
 
 private:
 	int m_l_pips;

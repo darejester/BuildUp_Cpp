@@ -17,6 +17,7 @@ public:
 		// create 1st round
 		// create hands
 	tournament();
+	tournament* get_tournament() { return this; }
 	//start game
 	void start_tournament();
 	// get reference of m_players
@@ -30,10 +31,12 @@ public:
 	void read_to_score(std::string a_temp1, std::string a_temp2, std::string a_temp3, std::string a_temp4);
 	void read_in_turn(std::string a_temp);
 	//save game
+	void save_game();
 	//next round
 		// create next round
 		// pass stack ptr to next round
-	int next_round();
+	//int next_round();
+	~tournament() { std::cout << "destroyed tournament" << std::endl; }
 
 private:
 	//stack holder
@@ -99,12 +102,12 @@ void tournament::start_tournament()
 		//std::cout << "Scoreboard: " << std::endl;
 		//std::cout << "B : " << m_scoreboard[0] << std::endl;
 		//std::cout << "W : " << m_scoreboard[1] << std::endl;
+		std::cout << "ROUND SCOREBOARD" << std::endl;
 		std::cout << "B : " << m_scoreboard[0] << std::endl;
 		std::cout << "W : " << m_scoreboard[1] << std::endl;
 
 		std::cout << "TOURNAMENT SCOREBOARD" << std::endl;
 		std::cout << "B: " << m_tournament_scoreboard[0];
-			
 		std::cout << std::endl;
 		std::cout << "W: " << m_tournament_scoreboard[1];
 		std::cout << std::endl;
@@ -141,6 +144,11 @@ void tournament::start_tournament()
 			}
 			else if (m_scoreboard[0] < m_scoreboard[1])
 			{
+				m_tournament_scoreboard[1]++;
+			}
+			else if (m_scoreboard[0] == m_scoreboard[1])
+			{
+				m_tournament_scoreboard[0]++;
 				m_tournament_scoreboard[1]++;
 			}
 
@@ -201,11 +209,11 @@ void tournament::start_tournament()
 	}
 }
 
-int tournament::next_round()
-{
-	m_game_round_counter++;
-	return m_game_round_counter;
-}
+//int tournament::next_round()
+//{
+//	m_game_round_counter++;
+//	return m_game_round_counter;
+//}
 
 void tournament::resume_tournament() 
 { 
@@ -410,4 +418,15 @@ void tournament::read_in_turn(std::string a_temp)
 		
 		//idx++;
 	}
+}
+
+void tournament::save_game()
+{
+	std::ofstream out_file;
+	out_file.open("OPLsaveFileOut.txt");
+	std::string content = "This is a sample text.";
+	out_file << content;
+
+
+	out_file.close();
 }

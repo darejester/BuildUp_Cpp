@@ -32,12 +32,6 @@ private:
 //	std::cout << "player object created" << std::endl;
 //}
 
-
-
-
-
-
-
 //void player::fill_stack(std::vector<domino*>& a_stack)
 //{
 //	//MAKE THIS START FROM 0 TO <6 FOR BOT

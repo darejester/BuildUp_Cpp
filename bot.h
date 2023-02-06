@@ -20,6 +20,8 @@ public:
 	bool check_playable( std::vector<domino*>& a_hand,  std::vector<domino*>& a_stack_temp);
 	void strategy(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_temp, int& a_loc1, int& a_loc2);
 	bool check_legality(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_temp, int& a_loc1, int& a_loc2);
+
+	~bot() { std::cout << "destroyed bot" << std::endl; }
 private:
 	std::vector<domino*> m_hand;
 	std::vector<domino*> m_boneyard;
@@ -74,7 +76,8 @@ void bot::display_hand()
 	std::cout << "BOT HAND:" << std::endl;
 	for (auto x : m_hand)
 	{
-		x->display_domino();
+		std::cout << "***";
+		//x->display_domino();
 		std::cout << " ";
 	}
 	std::cout << "\n";
@@ -88,7 +91,8 @@ void bot::display_boneyard()
 	std::cout << "TOP ";
 	for (auto x : m_boneyard)
 	{
-		x->display_domino();
+		std::cout << "***";
+		//x->display_domino();
 		std::cout << " ";
 	}
 	std::cout << "BOTTOM";
@@ -116,23 +120,20 @@ void bot::place(stack& a_stack)
 
 	
 
-	if (this->check_playable(m_hand,temp))
-	{
-		//get locations
-		//loc1 = rand() % m_hand.size();
-		//loc2 = rand() % temp.size();
-		this->strategy(m_hand, temp, loc1, loc2);
+	//get locations
+	//loc1 = rand() % m_hand.size();
+	//loc2 = rand() % temp.size();
+	this->strategy(m_hand, temp, loc1, loc2);
 
-		//check if placement of domino is legal
-		if (this->check_legality(m_hand,temp,loc1,loc2) )//condition 1
-		{
-			//place
-			temp[loc2] = m_hand[loc1];
-			it = m_hand.begin() + loc1;
-			m_hand.erase(it);
-			//display_hand();
-			return;
-		}
+	//check if placement of domino is legal
+	if (this->check_legality(m_hand,temp,loc1,loc2) )//condition 1
+	{
+		//place
+		temp[loc2] = m_hand[loc1];
+		it = m_hand.begin() + loc1;
+		m_hand.erase(it);
+		//display_hand();
+		return;
 	}
 
 }

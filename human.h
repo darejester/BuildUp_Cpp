@@ -21,6 +21,8 @@ public:
 	void get_help(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_temp, int& a_loc1, int& a_loc2, player* a_bot);
 	bool check_legality(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_temp, int& a_loc1, int& a_loc2);
 	void strategy(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_temp, int& a_loc1, int& a_loc2) {}
+
+	~human() { std::cout << "destroyed human" << std::endl; }
 private:
 	std::vector<domino*> m_hand;
 	std::vector<domino*> m_boneyard;
