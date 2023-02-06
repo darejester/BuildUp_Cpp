@@ -12,11 +12,13 @@ class game_round
 public:
 	game_round();
 	//play round
-	void round_play(player* a_human, player* a_bot, stack& a_stack, player* a_turn_order[2]);
+	bool round_play(player* a_human, player* a_bot, stack& a_stack, player* a_turn_order[2]);
 	//pick first to play each round
 	void first_pick(player* a_human,player* a_bot,player* a_turn_order[2], std::vector<domino*>& a_stack);
 	//score
 	void score(stack& a_stack,player* a_turn_order[2],int (&a_scoreboard)[2], int a_game_round_counter);
+	//get turn
+	int get_turn() { return m_turn; }
 	
 
 
@@ -26,6 +28,7 @@ private:
 	//score
 	int m_player_score;
 	int m_bot_score;
+	int m_turn;
 	
 
 };
@@ -35,31 +38,18 @@ game_round::game_round()
 	std::cout << "game_round object created" << std::endl;
 	m_player_score = 0;
 	m_bot_score = 0;
+	m_turn = 0;
 }
 
-void game_round::round_play(player* a_human, player* a_bot, stack& a_stack, player* a_turn_order[2])
+bool game_round::round_play(player* a_human, player* a_bot, stack& a_stack, player* a_turn_order[2])
 {
-	int turn = 0;
 	int ans = -1;
 
-	std::cout << "Do you wan to save game?" << std::endl;
-	std::cout << "1 = yes, 0 = no" << std::endl;
-	std::cin >> ans;
-	while (ans > 1 || ans < 0)
-	{
-		std::cout << "invalid input. Please try again..." << std::endl;
-		std::cin >> ans;
-	}
-
-	if (ans == 1)
-	{
-		//save game
-		
-	}
+	
 	
 	//a_turn_order[0]->display_boneyard();
 	// human and bot draw
-	if (!a_turn_order[turn]->check_playable(a_turn_order[turn]->get_hand(), a_stack.get_stack()))
+	if (!a_turn_order[m_turn]->check_playable(a_turn_order[m_turn]->get_hand(), a_stack.get_stack()))
 	{
 		a_turn_order[0]->draw();
 		a_turn_order[1]->draw();
@@ -69,8 +59,10 @@ void game_round::round_play(player* a_human, player* a_bot, stack& a_stack, play
 
 	while (a_turn_order[0]->check_playable(a_turn_order[0]->get_hand(),a_stack.get_stack()) || a_turn_order[1]->check_playable(a_turn_order[1]->get_hand(), a_stack.get_stack()))
 	{
+		
+
 		std::cout << "=============================================================================" << std::endl;
-		std::cout << "TURN: " << (a_turn_order[turn]->get_hand())[0]->display_color() << std::endl;
+		std::cout << "TURN: " << (a_turn_order[m_turn]->get_hand())[0]->display_color() << std::endl;
 		std::cout << "=============================================================================" << std::endl;
 		a_bot->display_boneyard();
 		a_bot->display_hand();
@@ -80,23 +72,23 @@ void game_round::round_play(player* a_human, player* a_bot, stack& a_stack, play
 		std::cout << "=============================================================================" << std::endl;
 		//replace .place(a_stack) with .place(a_stack.get_stack())
 
-		if (a_turn_order[turn]->check_playable(a_turn_order[turn]->get_hand(), a_stack.get_stack()))
+		if (a_turn_order[m_turn]->check_playable(a_turn_order[m_turn]->get_hand(), a_stack.get_stack()))
 		{
-			a_turn_order[turn]->player_play(a_stack, a_bot);
+			a_turn_order[m_turn]->player_play(a_stack, a_bot);
 		}
 		
 
-		if (turn == 0)
-		{
-			turn = 1;
-		}
+		if (m_turn == 0)
+		{	
+			m_turn = 1;
+		}	
 		else
-		{
-			turn = 0;
+		{	
+			m_turn = 0;
 		}
 
-		std::cout << "Do you wan to save game?" << std::endl;
-		std::cout << "1 = yes, 0 = no" <<std::endl;
+		std::cout << "Do you want to save game?" << std::endl;
+		std::cout << "1 = yes, 0 = no" << std::endl;
 		std::cin >> ans;
 		while (ans > 1 || ans < 0)
 		{
@@ -107,10 +99,8 @@ void game_round::round_play(player* a_human, player* a_bot, stack& a_stack, play
 		if (ans == 1)
 		{
 			//save game
-		}
-		else
-		{
-			continue;
+			return 1;
+
 		}
 
 	}

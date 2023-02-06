@@ -10,6 +10,7 @@ public:
 	bot(std::vector<domino*> a_temp_hand, std::vector<domino*> a_temp_boneyard) :m_hand(a_temp_hand), m_boneyard(a_temp_boneyard) {}
 	std::vector<domino*>& get_hand() { return m_hand; }
 	std::vector<domino*>& get_boneyard() { return m_boneyard; }
+	char get_id() { return 'W'; }
 	void draw();
 	bool is_hand_empty() { return m_hand.empty(); }
 	void display_hand();

@@ -114,7 +114,16 @@ void tournament::start_tournament()
 
 
 		//play
-		m_round->round_play( m_human,m_bot,m_stack, m_turn_order);
+		if (m_round->round_play(m_human, m_bot, m_stack, m_turn_order))
+		{
+			//save game
+			save_game();
+			return;
+		}
+		else
+		{
+			//continue playing
+		}
 
 		//display
 		m_bot->display_boneyard();
@@ -226,6 +235,7 @@ void tournament::resume_tournament()
 	m_human->get_boneyard().clear();
 	m_bot->get_hand().clear();
 	m_bot->get_boneyard().clear();
+
 	std::ifstream file("OPLsaveFile.txt");
 	std::vector<std::string> hand_temp;
 	std::vector<std::string> stack_temp;
@@ -233,7 +243,7 @@ void tournament::resume_tournament()
 	std::string line;
 
 	
-	if (file.is_open()) 
+	if (!file.eof()) 
 	{
 		//divide line into a vector
 		while (std::getline(file, line)) 
@@ -423,9 +433,102 @@ void tournament::read_in_turn(std::string a_temp)
 void tournament::save_game()
 {
 	std::ofstream out_file;
-	out_file.open("OPLsaveFileOut.txt");
-	std::string content = "This is a sample text.";
-	out_file << content;
+
+	out_file.open("OPLsaveFile.txt");
+
+	//bot write
+	out_file << "Computer:" << std::endl;
+	out_file << "   Stacks: ";
+	for (int i = 0; i < 6; i++)
+	{
+		out_file << m_stack.get_stack()[i]->display_color()<< m_stack.get_stack()[i]->display_l_pips() << m_stack.get_stack()[i]->display_r_pips() << " ";
+	}
+	out_file << std::endl;
+	out_file << "   Boneyard: ";
+	if (!m_bot->get_boneyard().empty())
+	{
+		for (auto x : m_bot->get_boneyard())
+		{
+			out_file << x->display_color() << x->display_l_pips() << x->display_r_pips() << " ";
+		}
+	}
+	else
+	{
+		out_file << "";
+	}
+	out_file << std::endl;
+	out_file << "   Hand: ";
+	if (!m_bot->get_hand().empty())
+	{
+		for (auto x : m_bot->get_hand())
+		{
+			out_file << x->display_color() << x->display_l_pips() << x->display_r_pips() << " ";
+		}
+	}
+	else
+	{
+		out_file << "";
+	}
+	out_file << std::endl;
+	out_file << "   Score: " << m_scoreboard[1];
+	out_file << std::endl;
+	out_file << "   Rounds Won: " << m_tournament_scoreboard[1];
+	out_file << std::endl;
+	out_file << std::endl;
+
+	//human write
+	out_file << "Human:" << std::endl;
+	out_file << "   Stacks: ";
+	for (int i = 6; i < 12; i++)
+	{
+		out_file << m_stack.get_stack()[i]->display_color() << m_stack.get_stack()[i]->display_l_pips() << m_stack.get_stack()[i]->display_r_pips() << " ";
+	}
+	out_file << std::endl;
+	out_file << "   Boneyard: ";
+	if (!m_human->get_boneyard().empty())
+	{
+		for (auto x : m_bot->get_boneyard())
+		{
+			out_file << x->display_color() << x->display_l_pips() << x->display_r_pips() << " ";
+		}
+	}
+	else
+	{
+		out_file << "";
+	}
+	out_file << std::endl;
+	out_file << "   Hand: ";
+	if (!m_human->get_hand().empty())
+	{
+		for (auto x : m_bot->get_boneyard())
+		{
+			out_file << x->display_color() << x->display_l_pips() << x->display_r_pips() << " ";
+		}
+	}
+	else
+	{
+		out_file << "";
+	}
+	out_file << std::endl;
+	out_file << "   Score: " << m_scoreboard[0];
+	out_file << std::endl;
+	out_file << "   Rounds Won: " << m_tournament_scoreboard[0];
+	out_file << std::endl;
+	out_file << std::endl;
+
+	out_file << "Turn: ";
+	if (m_turn_order[m_round->get_turn()]->get_id() == 'B')
+	{
+		out_file << "Human";
+	}
+	else if(m_turn_order[m_round->get_turn()]->get_id() == 'W')
+	{
+		out_file << "Computer";
+	}
+	else
+	{
+		out_file << "";
+	}
 
 
 	out_file.close();
