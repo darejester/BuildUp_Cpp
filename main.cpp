@@ -27,10 +27,6 @@ int main()
     {
         game.resume_tournament();
     }
-    else if (answer == 2)
-    {
-        //save tournament?
-    }
         
         
     

@@ -112,9 +112,8 @@ void tournament::start_tournament()
 		std::cout << "W: " << m_tournament_scoreboard[1];
 		std::cout << std::endl;
 
-
 		//play
-		if (m_round->round_play(m_human, m_bot, m_stack, m_turn_order))
+		if (m_round->round_play(m_human, m_bot, m_stack, m_turn_order, m_scoreboard))
 		{
 			//save game
 			save_game();
@@ -124,6 +123,7 @@ void tournament::start_tournament()
 		{
 			//continue playing
 		}
+		
 
 		//display
 		m_bot->display_boneyard();
@@ -133,7 +133,7 @@ void tournament::start_tournament()
 		m_human->display_boneyard();
 
 		//score
-		m_round->score(m_stack, m_turn_order, m_scoreboard, m_game_round_counter);
+		m_round->score(m_stack, m_turn_order, m_scoreboard);
 
 		
 
@@ -166,9 +166,9 @@ void tournament::start_tournament()
 			std::cout << "B : " << m_scoreboard[0] << std::endl;
 			std::cout << "W : " << m_scoreboard[1] << std::endl;
 			std::cout << "Do you want to continue onto the next tournament?" << std::endl;
-			std::cout << "1 = continue, 0 = exit, 2 = save" << std::endl;
+			std::cout << "1 = continue, 0 = exit" << std::endl;
 			std::cin >> continue_game;
-			while ((continue_game > 2) || (continue_game < 0))
+			while ((continue_game > 1) || (continue_game < 0))
 			{
 				std::cout << "input invalid. plase try again..." << std::endl;
 				std::cin >> continue_game;
@@ -191,10 +191,6 @@ void tournament::start_tournament()
 				m_scoreboard[1] = 0;
 				continued_tournament = 1;
 				continue;
-			}
-			else if (continue_game == 2)
-			{
-				//call save function
 			}
 			else // display winner
 			{
@@ -487,7 +483,7 @@ void tournament::save_game()
 	out_file << "   Boneyard: ";
 	if (!m_human->get_boneyard().empty())
 	{
-		for (auto x : m_bot->get_boneyard())
+		for (auto x : m_human->get_boneyard())
 		{
 			out_file << x->display_color() << x->display_l_pips() << x->display_r_pips() << " ";
 		}
@@ -500,7 +496,7 @@ void tournament::save_game()
 	out_file << "   Hand: ";
 	if (!m_human->get_hand().empty())
 	{
-		for (auto x : m_bot->get_boneyard())
+		for (auto x : m_human->get_hand())
 		{
 			out_file << x->display_color() << x->display_l_pips() << x->display_r_pips() << " ";
 		}
