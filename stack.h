@@ -23,7 +23,7 @@ public:
 
 	void display_stack();
 
-	~stack() { std::cout << "destroyed stack" << std::endl; }
+	~stack();
 
 private:
 	// holds dominos for bot boneyard
@@ -47,6 +47,15 @@ stack::stack()
 	}
 	//debug: print
 	//display_stack();
+}
+
+stack::~stack() 
+{ 
+	std::cout << "destroyed stack" << std::endl; 
+	for (auto x : m_stack)
+	{
+		delete x;
+	}
 }
 
 /* *********************************************************************

@@ -22,7 +22,7 @@ public:
 	void strategy(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_temp, int& a_loc1, int& a_loc2);
 	bool check_legality(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_temp, int& a_loc1, int& a_loc2);
 
-	~bot() { std::cout << "destroyed bot" << std::endl; }
+	~bot();
 private:
 	std::vector<domino*> m_hand;
 	std::vector<domino*> m_boneyard;
@@ -51,6 +51,19 @@ bot::bot()
 	}
 	std::cout << "\n";*/
 	std::cout << "bot object created" << std::endl;
+}
+
+bot::~bot()
+{
+	std::cout << "destroyed bot" << std::endl;
+	for (auto x : m_hand)
+	{
+		delete x;
+	}
+	for (auto x : m_boneyard)
+	{
+		delete x;
+	}
 }
 
 /* *********************************************************************

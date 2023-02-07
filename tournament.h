@@ -36,7 +36,7 @@ public:
 		// create next round
 		// pass stack ptr to next round
 	//int next_round();
-	~tournament() { std::cout << "destroyed tournament" << std::endl; }
+	~tournament() { std::cout << "destroyed tournament" << std::endl; delete m_human; delete m_bot; }
 
 private:
 	//stack holder
