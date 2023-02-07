@@ -77,3 +77,24 @@ February 2, 2023
 	- now iterates through whole hand and stacks to see if a strategic move is possible.
 - fixed confusion about what a hand is and a round is 
 - started implementing serialization
+
+February 3, 2023
+- added input validation for all player inputs
+- continued blocking in serialization
+- continued working on serialization
+- finished reading in from file
+- fixed alternating turn order
+- finished reading from file
+
+February 5, 2023
+- implementing serialization: write
+
+February 6, 2023
+- fixed serialization:write
+- finished serialization:writing
+- started cleaning up code
+- started putting in headers and documenting
+
+February 7, 2023
+- finished adding headers
+- fixed adding destructors
