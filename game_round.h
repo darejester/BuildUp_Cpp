@@ -1,28 +1,31 @@
 #pragma once
+#include "tournament.h"
 #include "player.h"
 #include <algorithm>
 #include <random>
 #include <vector>
 #include <numeric>
 
+
 class game_round
 {
 public:
 	game_round();
 	//play round
-	void round_play(player* a_human, player* a_bot, stack& a_stack, player* a_turn_order[2]);
+	bool round_play(player* a_human, player* a_bot, stack& a_stack, player* a_turn_order[2], int* a_scoreboard);
 	//pick first to play each round
 	void first_pick(player* a_human,player* a_bot,player* a_turn_order[2], std::vector<domino*>& a_stack);
 	//score
-	void score(stack& a_stack,player* a_turn_order[2],int (&a_scoreboard)[2], int a_game_round_counter);
+	void score(stack& a_stack,player* a_turn_order[2],int* a_scoreboard);
+	//get turn
+	int get_turn() { return m_turn; }
+	
 
 
 	~game_round() { std::cout << "destroyed round" << std::endl; }
 
 private:
-	//score
-	int m_player_score;
-	int m_bot_score;
+	int m_turn;
 	
 
 };
@@ -30,42 +33,118 @@ private:
 game_round::game_round()
 {
 	std::cout << "game_round object created" << std::endl;
-	m_player_score = 0;
-	m_bot_score = 0;
+	m_turn = 0;
 }
 
-void game_round::round_play(player* a_human, player* a_bot, stack& a_stack, player* a_turn_order[2])
+/* *********************************************************************
+Function Name: round_play
+Purpose: manages a round where players place down all of their dominos in their hand onto the stacks 
+Parameters:
+	a_human
+		a player object that is for the human player 
+	a_bot
+		a player object that is for the bot player
+	a_stack
+		the stack object where players place their dominos on
+	a_turn_order
+		an array of player object pointers to handle the turn order when playing
+	a_scoreboard
+		an integer array that keeps record of both players' scores
+
+Return Value: boolean that represents whether player should continue playing or save the game
+Algorithm:
+			1) check if both players' hands are empty, if they are, draw
+			2) players take turn placing dominos in a loop until both players dont have a domino that is playable
+			3) ask player if they want to save the game or not
+			4) continue the game or save the game depending on player input
+Assistance Received: none
+********************************************************************* */
+bool game_round::round_play(player* a_human, player* a_bot, stack& a_stack, player* a_turn_order[2], int* a_scoreboard)
 {
+	int ans = -1;
+
 	
 	//a_turn_order[0]->display_boneyard();
 	// human and bot draw
-	a_turn_order[0]->draw();
-	a_turn_order[1]->draw();
-	for (int i = 0; i < 2; i++)
+	if (a_turn_order[0]->get_hand().empty() && a_turn_order[1]->get_hand().empty())
 	{
-		while (a_turn_order[i]->check_playable(a_turn_order[i]->get_hand(),a_stack.get_stack()))
+		a_turn_order[0]->draw();
+		a_turn_order[1]->draw();
+	}
+	
+	
+	//until there is a playable domino in either player's hand
+	while (a_turn_order[0]->check_playable(a_turn_order[0]->get_hand(),a_stack.get_stack()) || a_turn_order[1]->check_playable(a_turn_order[1]->get_hand(), a_stack.get_stack()))
+	{
+		
+
+		std::cout << "=============================================================================" << std::endl;
+		std::cout << "TURN: " << (a_turn_order[m_turn]->get_hand())[0]->display_color() << std::endl;
+		std::cout << "=============================================================================" << std::endl;
+		a_bot->display_boneyard();
+		a_bot->display_hand();
+		a_stack.display_stack();
+		a_human->display_hand();
+		a_human->display_boneyard();
+		std::cout << "=============================================================================" << std::endl;
+		//replace .place(a_stack) with .place(a_stack.get_stack())
+
+		if (a_turn_order[m_turn]->check_playable(a_turn_order[m_turn]->get_hand(), a_stack.get_stack()))
 		{
-			std::cout << "=============================================================================" << std::endl;
-			std::cout << "TURN: " << (a_turn_order[i]->get_hand())[0]->display_color() << std::endl;
-			std::cout << "=============================================================================" << std::endl;
-			a_bot->display_boneyard();
-			a_bot->display_hand();
-			a_stack.display_stack();
-			a_human->display_hand();
-			a_human->display_boneyard();
-			std::cout << "=============================================================================" << std::endl;
-			//replace .place(a_stack) with .place(a_stack.get_stack())
+			a_turn_order[m_turn]->player_play(a_stack, a_bot);
+		}
+		
 
-			a_turn_order[i]->player_play(a_stack);
+		if (m_turn == 0)
+		{	
+			m_turn = 1;
+		}	
+		else
+		{	
+			m_turn = 0;
+		}
 
-			
+		std::cout << "Do you want to save game?" << std::endl;
+		std::cout << "1 = yes, 0 = no" << std::endl;
+		std::cin >> ans;
+		while (ans > 1 || ans < 0)
+		{
+			std::cout << "invalid input. Please try again..." << std::endl;
+			std::cin >> ans;
+		}
+
+		if (ans == 1)
+		{
+			//save game
+			return 1;
 
 		}
+
 	}
-}
+	return 0;
+
 	
+}
 
+/* *********************************************************************
+Function Name: first_pick
+Purpose: handles how player decide which one goes first each round
+Parameters:
+	a_human
+		a player object that is for the human player 
+	a_bot
+		a player object that is for the bot player
+	a_turn_order
+		an array of player object pointers to handle the turn order when playing. This will be updated with the actual turn order in this function
+	a_stack
+		the stack object where players place their dominos on
 
+Return Value: None
+Algorithm:
+			1) shuffle player boneyards everytime the first domino on each has the same total number of pips
+			2) whoever has the higher number of total pips goes first
+Assistance Received: none
+********************************************************************* */
 void game_round::first_pick(player* a_human, player* a_bot, player* a_turn_order[2], std::vector<domino*>& a_stack)
 {
 	std::cout << "first_pick() called " << std::endl;
@@ -93,7 +172,25 @@ void game_round::first_pick(player* a_human, player* a_bot, player* a_turn_order
 
 }
 
-void game_round::score(stack& a_stack, player* a_turn_order[2], int(&a_scoreboard)[2], int a_game_round_counter)
+/* *********************************************************************
+Function Name: score
+Purpose: handles scoring for a round
+Parameters:
+	a_stack
+		the stack object where players place their dominos on
+	a_turn_order
+		an array of player object pointers to handle the turn order when playing. 
+	a_scoreboard
+		an integer array that keeps record of both players' scores. This will be updated in this function
+
+Return Value: None
+Algorithm:
+			1) iterate through each player's hand to subtract any unplaced dominos from their respective scores
+			2) iterate through the stack to check what dominos each player placed and add them to their respective scores
+			3) update scoreboard with new scores
+Assistance Received: none
+********************************************************************* */
+void game_round::score(stack& a_stack, player* a_turn_order[2], int* a_scoreboard)
 {
 	int bot_total = 0;
 	int human_total = 0;
@@ -101,7 +198,7 @@ void game_round::score(stack& a_stack, player* a_turn_order[2], int(&a_scoreboar
 	std::vector<domino*>& stack_temp = a_stack.get_stack();
 	std::vector<domino*>::iterator it;
 
-	std::cout << "score:" << std::endl;
+	//std::cout << "score:" << std::endl;
 	//it = stack_temp.begin();
 
 	for (int p = 0; p < 2; p++)
@@ -132,14 +229,13 @@ void game_round::score(stack& a_stack, player* a_turn_order[2], int(&a_scoreboar
 			bot_total += x->total_pips();
 		}
 	}
-	//std::cout << "human: " << human_total << std::endl;
-	//std::cout << "Bot: " << bot_total << std::endl;
+	
 
 	a_scoreboard[0] += human_total;
 	a_scoreboard[1] += bot_total;
-	//B = player, W = bot
-	std::cout << "SCOREBOARD: " << std::endl;
-	std::cout << "B : " << a_scoreboard[0] << std::endl;
-	std::cout << "W : " << a_scoreboard[1] << std::endl;
+	
+	//std::cout << "human: " << a_scoreboard[0] << std::endl;
+	//std::cout << "Bot: " << a_scoreboard[1] << std::endl;
+	
 
 }

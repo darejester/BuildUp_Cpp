@@ -1,0 +1,79 @@
+***MOST DAYS THAT DIDN'T HAVE ANY PROGRESS TOWARDS CODING WAS SPENT PLANNING AND IMPROVING DESIGN***
+
+
+January 18, 2023
+- Started project
+- blocked features
+- created the initial implementation of a DOMINO class, a HAND class, a TILES class.
+- initially placed variables for boneyard, and tiles in TILES class
+- experimented on how the draw mechanic will will work
+- experimented on how classes should interact with one another and their organization
+
+January 19, 2023
+- started the imlementation of a TOURNAMENT class and a GAME_ROUND class
+- initially placed variables for player score in GAME_ROUND class 
+- initially placed variables for scoreboard, round counter, TILES pointer and GAME_ROUND pointer in tournament class
+- started thinking about how the interaction of 2 players should be with the current setup for boneyards, hands, and tiles.
+- started implementing a naming scheme
+	- m_... for class members
+	- a_... for arguments recieved by a function
+
+January 22, 2023
+- experimented with how the round system(GAME_ROUND) would work with TOURNAMENT
+- started testing the 4 round system, where TOURNAMENT manages the  creation and deletion of rounds
+- Renamed TILES to STACK
+- added a user interface for player when placing dominos
+- implemented a way to display the boneyard, hand, and stack everytime there is a change for debugging purposes
+- added a better user interface for boneyard
+- started organizing the order of events in a given round
+- created the initial implementation of BOT class
+	- basic implemetation of the mechanics that a player can do
+		- draw from boneyard
+		- place domino on stack
+- started organizing the order of events in a tournament and blocking in other features
+- created an interface for STACK and added location references for each stack
+	- the plan is to let the player choose from the location references to decide what to domino to play
+- deleted HAND class
+- placed vector for player hand in PLAYER class
+
+January 24, 2023
+- cleaned code and reorganized for improved readability and easier debugging in the future
+- planned out a new approach and changed some initial plans for some implementation
+
+January 25, 2023
+- initial implementation of color variable in DOMINO class
+- continued working on BOT class
+	- bot's initial filling of 0-5 stack locations
+- added score container for the bot and a turn order container.
+- implemented the use of turn order container for referencing which player is playing
+- implemented HUMAN class
+- implemented input validation for HUMAN
+- made PLAYER class into an abstract class for BOT and HUMAN
+- started integrating HUMAN-BOT turns into GAME_ROUND
+- converted the representation of dominos in stack from addresses to color-leftPip-rightPip
+
+
+January 28, 2023
+- fixed domino repetitions
+- used "random_shuffle" to shuffle boneyard of HUMAN and BOT classes
+- implemented "First_pick" function to decide which player goes first each round
+- implemented a loop inside the "round_play" function of GAME_ROUND to continue looping until a player still has a domino in their hand
+- improved interface for displaying game elements
+- fixed bug regarding NULL values when players are initially filling up their respective parts of the stack before round 1 begins
+
+January 29, 2023
+- Implemented a way to check if a player's move is legal
+- updated GAME_ROUND to also consider if a player still has a legal move before moving to the next player/next round
+- fixed mechanic to "First_pick" when both players draw a domino with the same amount of pips
+- implemented scoring mechanic 
+- implemented give up mechanic after a round is finished (player says no if asked if they want to continue to next round)
+
+January 30, 2023
+- Implemented strategy and "get help" mechanic
+- used loops to iterate though hand and stack to figure out which is the best move to play
+
+February 2, 2023
+- fixed strategy mechanic
+	- now iterates through whole hand and stacks to see if a strategic move is possible.
+- fixed confusion about what a hand is and a round is 
+- started implementing serialization

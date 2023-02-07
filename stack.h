@@ -23,6 +23,8 @@ public:
 
 	void display_stack();
 
+	~stack() { std::cout << "destroyed stack" << std::endl; }
+
 private:
 	// holds dominos for bot boneyard
 	//std::vector<domino*> m_bot_boneyard;
@@ -35,6 +37,7 @@ private:
 
 };
 
+
 stack::stack()
 {
 	std::cout << "stack object created" << std::endl;
@@ -45,6 +48,17 @@ stack::stack()
 	//debug: print
 	//display_stack();
 }
+
+/* *********************************************************************
+Function Name: display_stack
+Purpose: To display stack
+Parameters: None
+Return Value: None
+Algorithm:
+			1) loop through whole stack vector
+			2) output them to console
+Assistance Received: none
+********************************************************************* */
 void stack::display_stack()
 {
 	std::cout << "STACK:" << std::endl;
@@ -68,59 +82,3 @@ void stack::display_stack()
 	std::cout << " 6   7   8   9   10  11\n ";
 	std::cout << "\n";
 }
-
-//std::vector<domino*> stack::player_draw()
-//{
-//	std::vector<domino*> temp;
-//	for (int i = 0; i < 6; i++)
-//	{
-//		//for last iteration where dominos are less than 6
-//		if (m_player_boneyard.empty())
-//		{
-//			return temp;
-//		}
-//		temp.push_back(*m_player_boneyard.begin());
-//		//erase 
-//		m_player_boneyard.erase(m_player_boneyard.begin());
-//
-//		
-//
-//	}
-//	return temp;
-//}
-
-//std::vector<domino*> stack::bot_draw()
-//{
-//	std::vector<domino*> temp;
-//	for (int i = 0; i < 6; i++)
-//	{
-//		//for last iteration where dominos are less than 6
-//		if (m_bot_boneyard.empty())
-//		{
-//			return temp;
-//		}
-//		temp.push_back(*m_bot_boneyard.begin());
-//		//erase 
-//		m_bot_boneyard.erase(m_bot_boneyard.begin());
-//
-//
-//
-//	}
-//	return temp;
-//}
-
-//void stack::player_boneyard_out()
-//{
-//	for (auto x : m_player_boneyard)
-//	{
-//		std::cout << x->display_l_pips() << "-" << x->display_r_pips() << std::endl;
-//	}
-//}
-
-//void stack::bot_boneyard_out()
-//{
-//	for (auto x : m_bot_boneyard)
-//	{
-//		std::cout << x->display_l_pips() << "-" << x->display_r_pips() << std::endl;
-//	}
-//}

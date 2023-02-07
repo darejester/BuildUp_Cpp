@@ -1,3 +1,14 @@
+/*
+     ************************************************************
+     * Name:  John Matthew Sahagun                              *
+     * Project:  Build-Up C++ version                           *
+     * Class:  OPL CMPS366 01                                   *
+     * Date:  2/8/2023                                          *
+     ************************************************************
+*/
+
+
+
 #include "libraries.h"
 #include "domino.h"
 #include "stack.h"
@@ -11,8 +22,13 @@ int main()
 
  
     std::cout << "WELCOME!" << std::endl;
-    std::cout << "0 - start new tournament" << std::endl;
+    std::cout << "0 - start new tournament, 1 - resume saved tournament" << std::endl; 
     std::cin >> answer;
+    while (answer < 0 || answer > 1)
+    {
+        std::cout << "Input invalid. Please try again...." << std::endl;
+        std::cin >> answer;
+    }
 
     if (answer == 0)
     {
@@ -21,10 +37,6 @@ int main()
     else if (answer == 1)
     {
         game.resume_tournament();
-    }
-    else if (answer == 2)
-    {
-        //save tournament?
     }
         
         
@@ -47,10 +59,16 @@ https://pages.ramapo.edu/~amruth/teaching/opl/projects/buildup/problem.html
 - fix shuffle when deciding who is playing first(done)
 - double tile placement mechanic(done)
 - scoring(done)
+- fix bot mechanics(AI)(how it plays)(done)
+- fix ask for help(done)
+- winner for each hand(done)
+- winner for each round(done)
+- play another round(done)
+- fix winner declaration(done)
+- fix round and hand(done)
+    - round = the whole game of 4 hands
+- fix serialization(fix, resume)(done)
 
-- fix serialization(fix, resume)
-- fix bot mechanics(AI)(how it plays)
-- fix ask for help
 
 
 */

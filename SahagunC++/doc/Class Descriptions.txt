@@ -1,0 +1,32 @@
+CLASS: BOT
+- Inherited from PLAYER class
+- in charge of managing the hand, boneyard, and actions of BOT
+- hand and boneyard are represented by vectors consisting of DOMINO object pointers
+
+CLASS: DOMINO
+- In charge of keeping track of the left and right pips as well as the color of a respective domino
+- allows user to display a specific domino
+
+CLASS: GAME_ROUND
+- in charge of managing a game round
+	- deciding which player goes first, handling a round, and scoring is done here
+	
+CLASS: HUMAN
+- Inherited from PLAYER class
+- in charge of managing the hand, boneyard, and actions of HUMAN
+- hand and boneyard are represented by vectors consisting of DOMINO object pointers
+
+CLASS: PLAYER
+- abstract class
+- HUMAN and BOT classes inherit from this
+- allows the use of virtual functions and thus ploymorphism
+
+CLASS: STACK
+- in charge of the organization of the 12 (6 per player) stacks.
+- displays the stacks
+
+CLASS: TOURNAMENT
+- in charge of managing the tournament as a whole
+- allows user to play, save, and resume a game.
+- holds the turn order which is represented by an array of PLAYER pointers
+- holds the scoreboard which is represented by an array of int
