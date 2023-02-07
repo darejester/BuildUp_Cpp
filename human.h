@@ -86,13 +86,13 @@ void human::draw()
 }
 
 /* *********************************************************************
-Function Name: draw
-Purpose: to get dominos from boneyard
+Function Name: display_hand
+Purpose: display player's hand
 Parameters: None
 Return Value: None
 Algorithm:
-			1) Add all the grades
-			2) Divide the sum by the number of students in class to calculate the average
+			1) loop through whole hand of player
+			2) print dominos to console
 Assistance Received: none
 ********************************************************************* */
 void human::display_hand()
@@ -108,6 +108,16 @@ void human::display_hand()
 	std::cout << "\n \n";
 }
 
+/* *********************************************************************
+Function Name: display_doneyard
+Purpose: display player's boneyard
+Parameters: None
+Return Value: None
+Algorithm:
+			1) loop through whole boneyard of player
+			2) print dominos to console
+Assistance Received: none
+********************************************************************* */
 void human::display_boneyard()
 {
 	std::cout << "PLAYER BONEYARD:" << std::endl;
@@ -121,6 +131,17 @@ void human::display_boneyard()
 	std::cout << "\n \n";
 }
 
+/* *********************************************************************
+Function Name: place
+Purpose: place player domino onto stack
+Parameters: Object of Stack class
+Return Value: None
+Algorithm:
+			1) checks if there are any playable dominos
+			2) checks if the locations picked is a legal move
+			3) places domino onto stack location if legal move
+Assistance Received: none
+********************************************************************* */
 void human::place(stack& a_stack)
 {
 
@@ -164,6 +185,16 @@ void human::place(stack& a_stack)
 
 }
 
+/* *********************************************************************
+Function Name: fill_stack
+Purpose: fills 6 stacks that the player is responsible for with the first six in boneyard
+Parameters: a_stack, a vector of domino object pointers that is passed by reference. This function fills a_stack with dominos from the player's boneyard
+Return Value: None
+Algorithm:
+			1) iterate through a section of the stack
+			2) insert a domino from the boneyard to the stack for each iteration
+Assistance Received: none
+********************************************************************* */
 void human::fill_stack(std::vector<domino*>& a_stack)
 {
 	for (int i = 6; i < 12; i++)
@@ -178,6 +209,20 @@ void human::fill_stack(std::vector<domino*>& a_stack)
 	}
 }
 
+/* *********************************************************************
+Function Name: player_play
+Purpose: allows player to play their move
+Parameters: 
+	a_stack
+		a_stack, a vector of domino object pointers that is passed by reference. This function passes a_stack to the place function if the player picks to play
+	a_bot
+		a_bot is a player object passed by reference. This function passes a_bot to the get_help function and asks a_bot to provide a strategic move
+Return Value: None
+Algorithm:
+			1) asks player to input an integer
+			2) does action based on the input
+Assistance Received: none
+********************************************************************* */
 void human::player_play(stack& a_stack, player* a_bot)
 {
 	int loc1 = 0;
@@ -207,6 +252,22 @@ void human::player_play(stack& a_stack, player* a_bot)
 	
 }
 
+/* *********************************************************************
+Function Name: check_playable
+Purpose: checks player's hand and boneyard if there are any dominos that can be played based on the rules
+Parameters: 
+	a_hand
+		a vector of domino object pointers that is passed by reference. This function checks a_hand for its contents
+	a_stack_temp
+		a vector of domino object pointers that is passed by reference. This function checks a_stack_temp  for its contents
+				
+Return Value: boolean that represents whether there is a possible play or not
+Algorithm:
+			1) loop through whole stack
+			2) loop through whole hand
+			3) cross checks dominos in hand and stack to check if there are any possile plays based on the rules
+Assistance Received: none
+********************************************************************* */
 bool human::check_playable(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_temp)
 {
 	// check if there is/are any plable domino(s)
@@ -241,6 +302,29 @@ bool human::check_playable(std::vector<domino*>& a_hand, std::vector<domino*>& a
 	return 0;
 }
 
+/* *********************************************************************
+Function Name: get_help
+Purpose: uses Bot object's stategy to figure out what locations are going to give the most strategic move
+Parameters:
+	a_hand
+		a vector of domino object pointers that is passed by reference. This function checks a_hand for its contents
+	a_stack_temp
+		a vector of domino object pointers that is passed by reference. This function checks a_stack_temp  for its contents
+	a_loc1
+		an integer that holds the location for the player's hand. This will be modified based on the bot's strategy
+	a_loc2
+		an integer that holds the location for the stack. This will be modified based on the bot's strategy
+	a_bot
+		the bot object that will provide the player with the strategy
+
+Return Value: None
+Algorithm:
+			1) call Bot's strategy function
+			2) decide whether the locations that the strategy function is good enough to play
+			3) set the stack at location 2 equal to hand at location 1
+			4) erase location 1 from hand
+Assistance Received: none
+********************************************************************* */
 void human::get_help(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_temp, int& a_loc1, int& a_loc2, player* a_bot)
 {
 	int ans = -1;
@@ -269,6 +353,25 @@ void human::get_help(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack
 	}
 }
 
+/* *********************************************************************
+Function Name: check_legality
+Purpose: checks player's hand and boneyard if there are any dominos that can be played legally based on the rules
+Parameters:
+	a_hand
+		a vector of domino object pointers that is passed by reference. This function checks a_hand for its contents
+	a_stack_temp
+		a vector of domino object pointers that is passed by reference. This function checks a_stack_temp  for its contents
+	a_loc1
+		an integer that holds the location for the player's hand. This will be the location in hand.
+	a_loc2
+		an integer that holds the location for the stack. This will be the location in stacks
+
+Return Value: boolean that represents whether a move is a legal play or not
+Algorithm:
+			1) if and else statement to check if any legality condition is met
+			2) return true or false
+Assistance Received: none
+********************************************************************* */
 bool human::check_legality(std::vector<domino*>& a_hand, std::vector<domino*>& a_stack_temp, int& a_loc1, int& a_loc2)
 {
 	//check if placement of domino is legal

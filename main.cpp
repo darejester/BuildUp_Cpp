@@ -67,8 +67,7 @@ https://pages.ramapo.edu/~amruth/teaching/opl/projects/buildup/problem.html
 - fix winner declaration(done)
 - fix round and hand(done)
     - round = the whole game of 4 hands
-
-- fix serialization(fix, resume)
+- fix serialization(fix, resume)(done)
 
 
 

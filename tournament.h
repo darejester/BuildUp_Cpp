@@ -215,10 +215,23 @@ void tournament::start_tournament()
 	}
 }
 
+/* *********************************************************************
+Function Name: resume_tournament
+Purpose: responsible for reading from file and resuming a saved game
+Parameters: None
+
+Return Value: None
+Algorithm:
+			1) clear stack, all hands, and all boneyards
+			2) read from file
+			3) put each line in a vector
+			4) pass each line to respective functions that handle the information
+Assistance Received: none
+********************************************************************* */
 void tournament::resume_tournament() 
 { 
 	//read from save file
-	std::cout << "to be implemented" << std::endl; 
+	//std::cout << "to be implemented" << std::endl; 
 	//clear out stack
 	m_stack.get_stack().clear();
 	//clear out player infos
@@ -266,6 +279,19 @@ void tournament::resume_tournament()
 	}
 }
 
+/* *********************************************************************
+Function Name: read_to_stack
+Purpose: reads in stacks for each player
+Parameters:
+	a_temp
+		holds the string passed and parses it to get the stacks for respective players
+
+Return Value: None
+Algorithm:
+			1) skip the label
+			2) insert each domino into stack
+Assistance Received: none
+********************************************************************* */
 void tournament::read_to_stack(std::string a_temp) 
 {
 	std::istringstream iss(a_temp);
@@ -283,9 +309,28 @@ void tournament::read_to_stack(std::string a_temp)
 	
 }
 
+/* *********************************************************************
+Function Name: read_to_player
+Purpose: reads in boneyards and hands for each player
+Parameters:
+	a_temp1
+		holds the string passed and parses it to get the boneyard for bot
+	a_temp2
+		holds the string passed and parses it to get the hand for bot
+	a_temp3
+		holds the string passed and parses it to get the boneyard for human
+	a_temp4
+		holds the string passed and parses it to get the hand for human
+
+Return Value: None
+Algorithm:
+			1) skip all the labels
+			2) insert each information from the file to their respective containers
+Assistance Received: none
+********************************************************************* */
 void tournament::read_to_player(std::string a_temp1, std::string a_temp2, std::string a_temp3, std::string a_temp4)
 {
-	//1 = bot boneyard, 2 = bot hand, 3 = human boneyard, 4 = human boneyard
+	//1 = bot boneyard, 2 = bot hand, 3 = human boneyard, 4 = human hand
 	std::vector<domino*> a_temp_hand;
 	std::vector<domino*> a_temp_boneyard;
 	std::istringstream iss1(a_temp1);
@@ -342,6 +387,25 @@ void tournament::read_to_player(std::string a_temp1, std::string a_temp2, std::s
 
 }
 
+/* *********************************************************************
+Function Name: read_to_score
+Purpose: reads in scores and rounds won for each player
+Parameters:
+	a_temp1
+		holds the string passed and parses it to get the score for bot
+	a_temp2
+		holds the string passed and parses it to get the rounds won for bot
+	a_temp3
+		holds the string passed and parses it to get the score for human
+	a_temp4
+		holds the string passed and parses it to get the rounds for human
+
+Return Value: None
+Algorithm:
+			1) skip all the labels
+			2) insert each information from the file to their respective containers
+Assistance Received: none
+********************************************************************* */
 void tournament::read_to_score(std::string a_temp1, std::string a_temp2, std::string a_temp3, std::string a_temp4)
 {
 	std::istringstream iss1(a_temp1);
@@ -395,6 +459,19 @@ void tournament::read_to_score(std::string a_temp1, std::string a_temp2, std::st
 	
 }
 
+/* *********************************************************************
+Function Name: read_in_turn
+Purpose: reads in whos turn it is to play 
+Parameters:
+	a_temp
+		holds the string passed and parses it to get the next player to play
+
+Return Value: None
+Algorithm:
+			1) skip the label
+			2) update turn order with correct information
+Assistance Received: none
+********************************************************************* */
 void tournament::read_in_turn(std::string a_temp)
 {
 	std::istringstream iss1(a_temp);
@@ -421,6 +498,17 @@ void tournament::read_in_turn(std::string a_temp)
 	}
 }
 
+/* *********************************************************************
+Function Name: save_game
+Purpose: responsible for saving the game onto a text file
+Parameters:None
+
+Return Value: None
+Algorithm:
+			1) Set up format for the information to go in
+			2) write all information to file
+Assistance Received: none
+********************************************************************* */
 void tournament::save_game()
 {
 	std::ofstream out_file;

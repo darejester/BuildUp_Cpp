@@ -36,6 +36,29 @@ game_round::game_round()
 	m_turn = 0;
 }
 
+/* *********************************************************************
+Function Name: round_play
+Purpose: manages a round where players place down all of their dominos in their hand onto the stacks 
+Parameters:
+	a_human
+		a player object that is for the human player 
+	a_bot
+		a player object that is for the bot player
+	a_stack
+		the stack object where players place their dominos on
+	a_turn_order
+		an array of player object pointers to handle the turn order when playing
+	a_scoreboard
+		an integer array that keeps record of both players' scores
+
+Return Value: boolean that represents whether player should continue playing or save the game
+Algorithm:
+			1) check if both players' hands are empty, if they are, draw
+			2) players take turn placing dominos in a loop until both players dont have a domino that is playable
+			3) ask player if they want to save the game or not
+			4) continue the game or save the game depending on player input
+Assistance Received: none
+********************************************************************* */
 bool game_round::round_play(player* a_human, player* a_bot, stack& a_stack, player* a_turn_order[2], int* a_scoreboard)
 {
 	int ans = -1;
@@ -103,6 +126,25 @@ bool game_round::round_play(player* a_human, player* a_bot, stack& a_stack, play
 	
 }
 
+/* *********************************************************************
+Function Name: first_pick
+Purpose: handles how player decide which one goes first each round
+Parameters:
+	a_human
+		a player object that is for the human player 
+	a_bot
+		a player object that is for the bot player
+	a_turn_order
+		an array of player object pointers to handle the turn order when playing. This will be updated with the actual turn order in this function
+	a_stack
+		the stack object where players place their dominos on
+
+Return Value: None
+Algorithm:
+			1) shuffle player boneyards everytime the first domino on each has the same total number of pips
+			2) whoever has the higher number of total pips goes first
+Assistance Received: none
+********************************************************************* */
 void game_round::first_pick(player* a_human, player* a_bot, player* a_turn_order[2], std::vector<domino*>& a_stack)
 {
 	std::cout << "first_pick() called " << std::endl;
@@ -130,6 +172,24 @@ void game_round::first_pick(player* a_human, player* a_bot, player* a_turn_order
 
 }
 
+/* *********************************************************************
+Function Name: score
+Purpose: handles scoring for a round
+Parameters:
+	a_stack
+		the stack object where players place their dominos on
+	a_turn_order
+		an array of player object pointers to handle the turn order when playing. 
+	a_scoreboard
+		an integer array that keeps record of both players' scores. This will be updated in this function
+
+Return Value: None
+Algorithm:
+			1) iterate through each player's hand to subtract any unplaced dominos from their respective scores
+			2) iterate through the stack to check what dominos each player placed and add them to their respective scores
+			3) update scoreboard with new scores
+Assistance Received: none
+********************************************************************* */
 void game_round::score(stack& a_stack, player* a_turn_order[2], int* a_scoreboard)
 {
 	int bot_total = 0;
