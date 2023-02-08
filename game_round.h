@@ -154,19 +154,23 @@ void game_round::first_pick(player* a_human, player* a_bot, player* a_turn_order
 	{
 		std::random_shuffle(std::begin(a_human->get_boneyard()), std::end(a_human->get_boneyard()));
 		std::random_shuffle(std::begin(a_bot->get_boneyard()), std::end(a_bot->get_boneyard()));
-		std::cout << "shuffle" << std::endl;
+		std::cout << "total number pips for both players are the same, shuffle" << std::endl;
 	}
 
 	if (a_human->get_boneyard()[0]->total_pips() > a_bot->get_boneyard()[0]->total_pips()) // if human has higher total pips count
 	{
 		a_turn_order[1] = a_bot;
 		a_turn_order[0] = a_human;
+		std::cout << "the first domino in the player boneyard has a total pip number of : " << a_human->get_boneyard()[0]->total_pips() << " and the bot's first domino in their boneyard has a total of: " << a_bot->get_boneyard()[0]->total_pips() << std::endl;
+		std::cout << "total number of pips for human is greater, human goes first" << std::endl;
 		return;
 	}
 	else if (a_human->get_boneyard()[0]->total_pips() < a_bot->get_boneyard()[0]->total_pips()) // if bot has higher total pips count
 	{
 		a_turn_order[1] = a_human;
 		a_turn_order[0] = a_bot;
+		std::cout << "the first domino in the player boneyard has a total pip number of : " << a_human->get_boneyard()[0]->total_pips() << " and the bot's first domino in their boneyard has a total of: " << a_bot->get_boneyard()[0]->total_pips() << std::endl;
+		std::cout << "total number of pips for human is greater, bot goes first" << std::endl;
 		return;
 	}
 

@@ -112,8 +112,8 @@ void bot::display_hand()
 	std::cout << "BOT HAND:" << std::endl;
 	for (auto x : m_hand)
 	{
-		std::cout << "***";
-		//x->display_domino();
+		//std::cout << "***";
+		x->display_domino();
 		std::cout << " ";
 	}
 	std::cout << "\n";
@@ -137,8 +137,8 @@ void bot::display_boneyard()
 	std::cout << "TOP ";
 	for (auto x : m_boneyard)
 	{
-		std::cout << "***";
-		//x->display_domino();
+		//std::cout << "***";
+		x->display_domino();
 		std::cout << " ";
 	}
 	std::cout << "BOTTOM";
