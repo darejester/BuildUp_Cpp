@@ -78,6 +78,24 @@ tournament::tournament()
 	
 }
 
+
+/* *********************************************************************
+Function Name: start_tournament
+Purpose: responsible for managing and controlling the flow of the game
+Parameters: None
+
+Return Value: None
+Algorithm:
+			1) Decide who plays first each round if it is the first round of the tournament
+			2) display scores
+			3) play a round
+			4) if round returns 1, save the game, else, continue
+			5) score the hand and update scoreboard
+			6) clear all players' hands to prepare for next hand
+			7) if all players' boneyards are empty, ask player if they want to play another round, else continue
+			8) if player wants to play another round, clear all values and refill hands and boneyards for next tournament, else, display score and who won.
+Assistance Received: none
+********************************************************************* */
 void tournament::start_tournament()
 {
 	int continue_game = 1;
