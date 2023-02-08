@@ -1,0 +1,10 @@
+1) ready "OPLsaveFile.txt" if using serialization feature
+2) launch program
+3) pick whether resuming an existing tournament or starting a new one
+4) play the game
+
+MAIN FUNCTION
+- controls what the program is going to do depending on the player's input
+
+START_TOURNAMENT FUNCTION
+- responsible for managing and controlling the flow of the whole game
